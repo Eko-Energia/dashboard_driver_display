@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/arrow.png</file>
+        <file>images/awaryjne.png</file>
+        <file>images/background.png</file>
+        <file>images/base_ready.png</file>
+        <file>images/battery_warning.png</file>
+        <file>images/Blinker.png</file>
+        <file>images/check_engine.png</file>
+        <file>images/cruise_control.png</file>
+        <file>images/drogowe.png</file>
+        <file>images/mijania.png</file>
+        <file>images/postojowe.png</file>
+        <file>images/power_warning.png</file>
+        <file>images/temp_warning.png</file>
+        <file>fonts/ChakraPetch-Bold.ttf</file>
+        <file>fonts/ChakraPetch-BoldItalic.ttf</file>
+        <file>fonts/ChakraPetch-Italic.ttf</file>
+        <file>fonts/ChakraPetch-Light.ttf</file>
+        <file>fonts/ChakraPetch-LightItalic.ttf</file>
+        <file>fonts/ChakraPetch-Medium.ttf</file>
+        <file>fonts/ChakraPetch-MediumItalic.ttf</file>
+        <file>fonts/ChakraPetch-Regular.ttf</file>
+        <file>fonts/ChakraPetch-SemiBold.ttf</file>
+        <file>fonts/ChakraPetch-SemiBoldItalic.ttf</file>
+        <file>fonts/OFL.txt</file>
+        <file>qml/Blinker.qml</file>
+        <file>qml/Lights.qml</file>
+        <file>qml/Main.qml</file>
+        <file>qml/Powermeter.qml</file>
+        <file>qml/Speedometer.qml</file>
+        <file>qml/Warnings.qml</file>
+    </qresource>
+</RCC>
