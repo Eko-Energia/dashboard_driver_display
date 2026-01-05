@@ -1,61 +1,37 @@
-import QtQuick 2.15
+import QtQuick
 
 Item {
-    id :root
-    height : 570
-    width : height
+    implicitWidth: 520
+    implicitHeight: 520
 
-    Column {
+    Image{
+        id: powermeter
+        source: "qrc:/img/gauges/speedometer/speedometer.png"
         anchors.centerIn: parent
-        Text { // Speed
-            anchors.horizontalCenter: parent.horizontalCenter
-            text : speedometer ? speedometer.value : "-"
-            font.family: chakraFont.name
-            font.pixelSize : 90
-            color : "#F3F3F3"
-        }
-
-        Text {// km/h
-            anchors.horizontalCenter: parent.horizontalCenter
-            text : "km/h"
-            font.pixelSize : 25
-            font.family : chakraFont.name
-            color : "#F3F3F3"
-
-        }
+        anchors.horizontalCenterOffset: -3
+        anchors.verticalCenterOffset: 7
+        height: 630
+        width: 635
     }
 
-    Text { // gear
+
+    Speed_Control{
+        height: 40
+        width: 50
         anchors.horizontalCenter: parent.horizontalCenter
-        text : drivemode ? drivemode.value : "-"
-        font.pixelSize : 45
-        font.family : chakraFont.name
-        color : "#F3F3F3"
-        y : 435
+        y:360
+        opacity: 1.0
     }
 
-    Item {
-        id: needleContainer
-        x: 274
-        y: 0
-        width : 24
-        height : parent.width/2
-        Image {
-            y : 13
-            anchors.horizontalCenter: parent.horizontalCenter
-            source : "qrc:/images/arrow.png"
+    Speedometer_Column{
+        anchors.centerIn: parent
+    }
 
-        }
-
-        transform : Rotation {
-            origin.x : needleContainer.width /2
-            origin.y : needleContainer.height
-            angle: { // Potrzebne ograniczenie zeby po przekroczeiu 140 wskazowka sie nie wychylala dalej
-                    if(speedometer == null){return 0;}
-                    var a = -140 + 2 * speedometer.value;
-                    return Math.min(Math.max(a, -140), 140);
-                }
-        }
+    Arrow{
+        width: 400
+        height: 400
+        anchors.centerIn: parent
+        rotation: -53
     }
 
 }
