@@ -3,7 +3,7 @@ The driver screen is still under development, current design is outdated. The ne
 The CAN communication layer I created for testing will be fully replaced with the unified version developed by Olek Jóźwik once it becomes available.
 
 <h1 align="center"><strong>Current State of the Driver Screen</strong></h1>
-<img width="1346" height="492" alt="obraz" src="https://github.com/user-attachments/assets/9d6d78c2-ccc5-4365-a0c9-09c8a2e367c9" />
+<img width="1600" height="600" alt="dashboard-mock-up" src="https://github.com/user-attachments/assets/44e8a73c-0876-4c98-b29a-63b999ad8bc5" />
 
 
 ## Requirements to Run the Application
