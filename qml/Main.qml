@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-
+import QtWebSockets
 Window {
     visible: true
     width: 1600
@@ -11,6 +11,7 @@ Window {
     maximumWidth: 1600
     minimumHeight: 600
     maximumHeight: 600
+
 
     FontLoader {
         id: oxaniumRegular
@@ -60,5 +61,5 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
     }
-
+    
 }

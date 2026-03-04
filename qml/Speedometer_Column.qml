@@ -18,7 +18,7 @@ Item {
         id: speed
         anchors.centerIn: parent
         anchors.verticalCenterOffset: 15
-        text : "47"
+        text : Math.floor(system.values["Speed"])
         color : "#FFFFFF"
         font.pixelSize: 84
         font.family: oxaniumSemiBold.name

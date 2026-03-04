@@ -8,28 +8,27 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Windows C:/Qt/wersja_qt/kompilator/lib/cmake
 # Jak bedzie finalny frontend deski zrobiony to spakuje te biblioteki tak zeby sie dalo kompilowac bez QT zanstalowanego
 
-set(CMAKE_PREFIX_PATH /home/igor/Qt/6.9.2/gcc_64)
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+set(Qt6_DIR "/home/igor/Qt/6.9.3/gcc_64/lib/cmake/Qt6/")
 
-qt_standard_project_setup(REQUIRES 6.8)
+find_package(Qt6 6.9.3 EXACT REQUIRED COMPONENTS Quick WebSockets)
 
-set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOMOC ON)        
+set(CMAKE_AUTORCC ON)     
+set(CMAKE_AUTOUIC ON)    
+
 qt_add_executable(appeko_dashboard
     resources.qrc
-    inc/dbc.h
-    src/dbc.cpp
-    inc/can.h
-    src/can.cpp
     inc/blinker.h
     src/blinker.cpp
     inc/clock.h
     src/clock.cpp
-    inc/valueinfo.h
-    src/valueinfo.cpp
+    src/main.cpp
+    inc/websocketclient.h src/websocketclient.cpp
+    inc/functions.h src/functions.cpp
     inc/system.h
     src/system.cpp
-    src/main.cpp
 )
+
 
 target_include_directories(appeko_dashboard
     PRIVATE
@@ -49,6 +48,7 @@ set_target_properties(appeko_dashboard PROPERTIES
 
 target_link_libraries(appeko_dashboard
     PRIVATE Qt6::Quick
+    PRIVATE Qt6::WebSockets
 )
 
 include(GNUInstallDirs)

@@ -1,0 +1,4 @@
+# Lista subskrypcji wiadomosci dla aplikacji ekranu. Żeby zaktualizować subskrypcje po zapisaniu .txt należy zrestartowac aplikacje ekranu
+MotorStatus
+BatteryInfo
+SensorData

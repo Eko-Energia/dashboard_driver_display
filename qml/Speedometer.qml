@@ -28,10 +28,18 @@ Item {
     }
 
     Arrow{
-        width: 400
-        height: 400
+        id: arrow
         anchors.centerIn: parent
-        rotation: -53
-    }
 
+        transform: Rotation {
+                origin.x: arrow.width/2    // pixel X względem lewego górnego rogu
+                origin.y: arrow.height/2   // pixel Y
+                angle: Math.max(-140, Math.min(140, -140 + (Number(system.values["Speed"]) * 2)))
+            }
+        Behavior on rotation {
+            SmoothedAnimation {
+                velocity: 30   // stopnie na sekundę
+            }
+        }
+    }
 }

@@ -11,7 +11,7 @@ Item {
         Text{
             id: date
             anchors.verticalCenter: parent.verticalCenter
-            text : "27.10"
+            text : clock.date
             color : "#FFFFFF"
             font.pixelSize : 24
             font.family: oxaniumSemiBold.name
@@ -20,7 +20,7 @@ Item {
         Text{
             id: time
             anchors.verticalCenter: parent.verticalCenter
-            text : "21:37"
+            text : clock.time
             color : "#FFFFFF"
             font.pixelSize : 24
             font.family: oxaniumSemiBold.name
@@ -29,7 +29,7 @@ Item {
         Text{
             id: temperature
             anchors.verticalCenter: parent.verticalCenter
-            text : "26℃"
+            text : system.values["AmbientTemp"] + "℃"
             color : "#FFFFFF"
             font.pixelSize : 24
             font.family: oxaniumSemiBold.name

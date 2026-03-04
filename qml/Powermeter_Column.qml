@@ -8,7 +8,7 @@ Item {
         id: power
         anchors.centerIn: parent
         anchors.verticalCenterOffset: -10
-        text : "10"
+        text : system.values["MotorPower"]
         color : "#FFFFFF"
         font.pixelSize: 84
         font.family: oxaniumSemiBold.name

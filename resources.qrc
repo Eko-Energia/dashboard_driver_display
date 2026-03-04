@@ -1,34 +1,40 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/arrow.png</file>
-        <file>images/awaryjne.png</file>
-        <file>images/background.png</file>
-        <file>images/base_ready.png</file>
-        <file>images/battery_warning.png</file>
-        <file>images/Blinker.png</file>
-        <file>images/check_engine.png</file>
-        <file>images/cruise_control.png</file>
-        <file>images/drogowe.png</file>
-        <file>images/mijania.png</file>
-        <file>images/postojowe.png</file>
-        <file>images/power_warning.png</file>
-        <file>images/temp_warning.png</file>
-        <file>fonts/ChakraPetch-Bold.ttf</file>
-        <file>fonts/ChakraPetch-BoldItalic.ttf</file>
-        <file>fonts/ChakraPetch-Italic.ttf</file>
-        <file>fonts/ChakraPetch-Light.ttf</file>
-        <file>fonts/ChakraPetch-LightItalic.ttf</file>
-        <file>fonts/ChakraPetch-Medium.ttf</file>
-        <file>fonts/ChakraPetch-MediumItalic.ttf</file>
-        <file>fonts/ChakraPetch-Regular.ttf</file>
-        <file>fonts/ChakraPetch-SemiBold.ttf</file>
-        <file>fonts/ChakraPetch-SemiBoldItalic.ttf</file>
+        <file>img/background.png</file>
+        <file>img/error_pop_up.png</file>
+        <file>img/gauges/arrow.png</file>
+        <file>img/gauges/powermeter/powermeter.png</file>
+        <file>img/gauges/powermeter/battery/battery_icon.png</file>
+        <file>img/gauges/powermeter/battery/charge_bar.png</file>
+        <file>img/gauges/speedometer/speed_control.png</file>
+        <file>img/gauges/speedometer/speedometer.png</file>
+        <file>img/indicators/left_indicator.png</file>
+        <file>img/indicators/right_indicator.png</file>
+        <file>img/lights/full_beams.png</file>
+        <file>img/lights/hazard_lights.png</file>
+        <file>img/lights/low_beams.png</file>
+        <file>img/lights/park_lights.png</file>
+        <file>img/warnings/check_engine.png</file>
+        <file>img/warnings/high_temperature.png</file>
+        <file>img/warnings/low_battery.png</file>
+        <file>img/warnings/open_door.png</file>
+        <file>fonts/Oxanium-Regular.ttf</file>
+        <file>fonts/Oxanium-SemiBold.ttf</file>
         <file>fonts/OFL.txt</file>
-        <file>qml/Blinker.qml</file>
-        <file>qml/Lights.qml</file>
+        <file>qml/Arrow.qml</file>
+        <file>qml/Battery_Charge_Bar.qml</file>
+        <file>qml/Battery_Icon.qml</file>
+        <file>qml/Error_Pop_Up.qml</file>
+        <file>qml/Gauges.qml</file>
+        <file>qml/Indicators_Row.qml</file>
+        <file>qml/Lights_Row.qml</file>
         <file>qml/Main.qml</file>
+        <file>qml/Powermeter_Column.qml</file>
         <file>qml/Powermeter.qml</file>
+        <file>qml/Speed_Control.qml</file>
+        <file>qml/Speedometer_Column.qml</file>
         <file>qml/Speedometer.qml</file>
-        <file>qml/Warnings.qml</file>
+        <file>qml/Top_Row.qml</file>
+        <file>qml/Warnings_Row.qml</file>
     </qresource>
 </RCC>
