@@ -1,11 +1,40 @@
 cmake_minimum_required(VERSION 3.16)
 
+option(CROSS_COMPILE "Cross-kompilacja na ARM" OFF)
+
+if(CROSS_COMPILE)
+    set(CMAKE_SYSTEM_NAME Linux)
+    set(CMAKE_SYSTEM_PROCESSOR aarch64)
+    set(CMAKE_C_COMPILER "/usr/bin/aarch64-linux-gnu-gcc")
+    set(CMAKE_CXX_COMPILER "/usr/bin/aarch64-linux-gnu-g++")
+    
+    # QT skompilowane na arm'a
+    set(QT_PATH "$ENV{HOME}/Documents/projects_cpp/cross-comp/qt-raspi")
+    # Sysroot malinki (tez potrzzebny)
+    set(CMAKE_SYSROOT "$ENV{HOME}/Documents/projects_cpp/cross-comp/rpi-sysroot")
+
+    # pkg-config czasem myli gdzie ma szukac bibliotek
+    set(ENV{PKG_CONFIG_SYSROOT_DIR} "${CMAKE_SYSROOT}")
+    set(ENV{PKG_CONFIG_LIBDIR} "${CMAKE_SYSROOT}/usr/lib/aarch64-linux-gnu/pkgconfig:${CMAKE_SYSROOT}/usr/share/pkgconfig")
+    set(ENV{PKG_CONFIG_PATH} "") 
+
+    set(CMAKE_FIND_ROOT_PATH "${QT_PATH}" "${CMAKE_SYSROOT}")
+
+    set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER) 
+    set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY) 
+    set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)  
+    set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY) 
+else()
+    set(CMAKE_C_COMPILER "/usr/bin/gcc")
+    set(CMAKE_CXX_COMPILER "/usr/bin/g++")
+    set(QT_PATH "$ENV{HOME}/Qt/6.9.3/gcc_64")         
+endif()
+
 project(eko_dash2 VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(Qt6_DIR "/home/igor/Qt/6.9.3/gcc_64/lib/cmake/Qt6/")
-
+list(APPEND CMAKE_PREFIX_PATH "${QT_PATH}")
 find_package(Qt6 6.9.3 EXACT REQUIRED COMPONENTS Quick WebSockets)
 
 set(CMAKE_AUTOMOC ON)        
