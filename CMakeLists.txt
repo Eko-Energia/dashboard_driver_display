@@ -3,10 +3,6 @@ cmake_minimum_required(VERSION 3.16)
 project(eko_dash2 VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# Chlopie ustaw dobra sciezke do biblioteki!
-# LINUX home/User/Qt/wersja_qt/kompilator/lib/cmake
-# Windows C:/Qt/wersja_qt/kompilator/lib/cmake
-# Jak bedzie finalny frontend deski zrobiony to spakuje te biblioteki tak zeby sie dalo kompilowac bez QT zanstalowanego
 
 set(Qt6_DIR "/home/igor/Qt/6.9.3/gcc_64/lib/cmake/Qt6/")
 
@@ -23,8 +19,10 @@ qt_add_executable(appeko_dashboard
     inc/clock.h
     src/clock.cpp
     src/main.cpp
-    inc/websocketclient.h src/websocketclient.cpp
-    inc/functions.h src/functions.cpp
+    inc/websocketclient.h 
+    src/websocketclient.cpp
+    inc/functions.h 
+    src/functions.cpp
     inc/system.h
     src/system.cpp
 )
