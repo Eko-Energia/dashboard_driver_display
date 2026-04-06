@@ -3,10 +3,11 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QDebug>  // Do wypisywania informacji w konsoli
+#include <QTimer>
 #include "functions.h"
 
-WebSocketClient::WebSocketClient(QObject *parent)
-    : QObject(parent)
+WebSocketClient::WebSocketClient(QUrl serverURL,QObject *parent)
+    : addres(serverURL), QObject(parent)
 {
     connect(&m_socket, &QWebSocket::connected,
             this, &WebSocketClient::onConnected);
@@ -20,10 +21,10 @@ WebSocketClient::WebSocketClient(QObject *parent)
     connect(&m_socket, &QWebSocket::binaryMessageReceived,this, &WebSocketClient::onBinaryMessageReceived);
 }
 
-void WebSocketClient::connectToServer(const QUrl& url)
+void WebSocketClient::connectToServer(const QUrl url)
 {
-    qDebug() << "Connecting to WebSocket:" << url;
-    m_socket.open(url);
+    qDebug() << "Connecting to WebSocket:" << this->addres; // przy wywolaniu z custom url nie wyswietli sie poprawny adres ale nie zakladam narazie takiego uzycia
+    m_socket.open(this->addres);
 }
 
 void WebSocketClient::sendMessage(const QString& message)
@@ -56,6 +57,11 @@ void WebSocketClient::onTextMessageReceived(const QString& message)
 void WebSocketClient::onDisconnected()
 {
     qDebug() << "WebSocket disconnected";
+
+    QTimer::singleShot(1000, this, [this]() {
+        qDebug() << "Reconnecting WebSocket";
+        this->connectToServer(); 
+    });
 }
 
 void WebSocketClient::subscribeMessages(const QStringList& messageNames)

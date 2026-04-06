@@ -23,14 +23,14 @@ int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    WebSocketClient client;
+    WebSocketClient client(QUrl("ws://0.0.0.0:8080"));
     System system;
     Clock clock;
 
     QObject::connect(&client, &WebSocketClient::snapshotReceived, &system, &System::readSnapshot);
     QObject::connect(&client, &WebSocketClient::updateReceived, &system, &System::readUpdate);
 
-    client.connectToServer(QUrl("ws://0.0.0.0:8080"));
+    client.connectToServer();
 
     engine.rootContext()->setContextProperty("clock", &clock);
     engine.rootContext()->setContextProperty("system", &system);

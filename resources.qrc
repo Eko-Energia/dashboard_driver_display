@@ -36,5 +36,6 @@
         <file>qml/Speedometer.qml</file>
         <file>qml/Top_Row.qml</file>
         <file>qml/Warnings_Row.qml</file>
+        <file>subs.txt</file>
     </qresource>
 </RCC>

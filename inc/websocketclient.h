@@ -9,8 +9,8 @@ class WebSocketClient : public QObject
     Q_OBJECT
 
 public:
-    explicit WebSocketClient(QObject *parent = nullptr);
-    void connectToServer(const QUrl& url);
+    explicit WebSocketClient(QUrl serverURL, QObject *parent = nullptr);
+    void connectToServer(const QUrl url = QUrl());
     void sendMessage(const QString& message);
     void subscribeMessages(const QStringList& messageNames);
 signals:
@@ -26,4 +26,5 @@ private slots:
 
 private:
     QWebSocket m_socket;
+    QUrl addres;
 };

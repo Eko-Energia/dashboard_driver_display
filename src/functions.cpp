@@ -19,7 +19,7 @@ QJsonObject text_to_JSON(const QString& message){
 }
 QStringList loadSubscriptions(){
     QStringList subs; // Lista subskrypcji pozniej uzyta do budowy slownika
-    QFile file("qrc:/subs.txt"); //pozniej trzeba dokladna lokacje podac
+    QFile file(":/subs.txt"); //pozniej trzeba dokladna lokacje podac
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "Błąd przy otwarciu pliku subskrypcji";
         return subs;
