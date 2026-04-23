@@ -29,7 +29,7 @@ Item {
         Text{
             id: temperature
             anchors.verticalCenter: parent.verticalCenter
-            text: system.values["AmbientTemp"] + "\u00B0C"            
+            text: system.values["MaxChargCurr"] + "\u00B0C"            
             color : "#FFFFFF"
             font.pixelSize : 24
             font.family: oxaniumSemiBold.name

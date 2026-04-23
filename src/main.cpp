@@ -8,17 +8,7 @@
 #include "system.h"
 #include "websocketclient.h"
 #include "clock.h"
-/*TODO
 
-Ogarnac const correctnes w backendize
-pousuwac zbedny kod, i dodac funkcje do debugowania
-dokonczyc skrypt w bashu do testow
-zrobic fajna dokumentajce
-przetestowac wszystko i finito
-
-zapytac ilony co z frontem / samemu sie wziac za to na powaznie
-
-*/
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
@@ -41,12 +31,3 @@ int main(int argc, char *argv[]) {
     return app.exec();
 }
 
-/*
-    ramki co trzeba bedzie zasubskrybowac w kliencie:
-    motor status - motorrpm (obroty), motortemp (temperatura)
-    battery info - miedzy innymi stateofcharge % aladowania
-    sensordata - speed, ambienttemp, jest tez cisnienie i wilgotnosc
-    controlcommands - Powermode (tryb jazdy, eco sport bla bla bla), EcoMode (true/false, najwidoczniej do wyswietalania ze jest wlaczony)
-    diagnosticinfo - errorcode
-
-*/

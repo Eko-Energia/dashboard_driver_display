@@ -34,7 +34,7 @@ Item {
         transform: Rotation {
                 origin.x: arrow.width/2    // pixel X względem lewego górnego rogu
                 origin.y: arrow.height/2   // pixel Y
-                angle: Math.max(-140, Math.min(140, -140 + (Number(system.values["Speed"]) * 2)))
+                angle: Math.max(-140, Math.min(140, -140 + (Number(30) * 2)))
             }
         Behavior on rotation {
             SmoothedAnimation {

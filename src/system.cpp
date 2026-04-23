@@ -10,7 +10,9 @@ System::System(QObject *parent) : QObject(parent) {
         {"StateOfCharge","0"} ,
         {"AmbientTemp","0"} ,
         {"Speed","0"} ,
-        {"MotorPower","0"}
+        {"MotorPower","0"},
+        {"PCBCells2_Therm4_temperature","0"},
+        {"MaxChargCurr","0"}
     };
 
 }
@@ -25,8 +27,8 @@ void System::readSnapshot(QJsonObject& snapshot)
     QJsonObject obj = snapshot["data"].toObject();
 
     for (auto it = obj.begin(); it != obj.end(); ++it) {
-        if (it.key() == "BatteryInfo") {
-            qDebug() << "WYKRYTO BATTERY INFO";
+        if (it.key() == "PCBCells2_Therm4_temperature") {
+            qDebug() << "termistor zlapany";
         }
     }
 }
