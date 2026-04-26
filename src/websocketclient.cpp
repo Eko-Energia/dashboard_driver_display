@@ -21,9 +21,9 @@ WebSocketClient::WebSocketClient(QUrl serverURL,QObject *parent)
     connect(&m_socket, &QWebSocket::binaryMessageReceived,this, &WebSocketClient::onBinaryMessageReceived);
 }
 
-void WebSocketClient::connectToServer(const QUrl url)
-{
-    qDebug() << "Connecting to WebSocket:" << this->addres; // przy wywolaniu z custom url nie wyswietli sie poprawny adres ale nie zakladam narazie takiego uzycia
+void WebSocketClient::connectToServer()
+{ // Ekran nie zaklada zmiany adresu do ktorego laczy sie websocket, na sztywno jest ustawiany jednorazowo przy tworzeniu obiektu klasy
+    qDebug() << "Connecting to WebSocket:" << this->addres; 
     m_socket.open(this->addres);
 }
 
@@ -35,8 +35,12 @@ void WebSocketClient::sendMessage(const QString& message)
 void WebSocketClient::onConnected()
 {
     qDebug() << "WebSocket connected";
-    QStringList subs = loadSubscriptions();
-    subscribeMessages(subs);
+    QList<CANframe> subs = loadSubscriptions();
+    QStringList subsNames;
+    for(const CANframe& frame : subs){
+        subsNames.append(frame.getName());
+    }
+    subscribeMessages(subsNames);
 }
 
 void WebSocketClient::onTextMessageReceived(const QString& message)

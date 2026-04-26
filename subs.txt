@@ -1,2 +1,9 @@
 # Lista subskrypcji wiadomosci dla aplikacji ekranu. Żeby zaktualizować subskrypcje po zapisaniu .txt należy zrestartowac aplikacje ekranu
-SensorData
+# Jedna ramka na linijke, inaczej pewnie blednie zparsuje
+# Przykladowy poprawny zapis ramki z sygnalami:
+# NAZWA_RAMKI|SYGNAL1,SYGNAL2,SYGNAL3
+
+MotorStatus|MotorRPM,MotorTemp
+BatteryInfo|Voltage,Current
+SensorData|Speed
+

@@ -8,6 +8,7 @@
 #include "system.h"
 #include "websocketclient.h"
 #include "clock.h"
+#include "functions.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
@@ -27,6 +28,7 @@ int main(int argc, char *argv[]) {
 
     engine.load(QUrl("qrc:/qml/Main.qml"));
     if (engine.rootObjects().isEmpty()) {return -1;}
+
 
     return app.exec();
 }

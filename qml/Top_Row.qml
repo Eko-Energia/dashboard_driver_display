@@ -29,7 +29,10 @@ Item {
         Text{
             id: temperature
             anchors.verticalCenter: parent.verticalCenter
-            text: system.values["MaxChargCurr"] + "\u00B0C"            
+            text : {
+                system.dataTick; 
+                return system.values("MotorStatus","MotorTemp");
+            }            
             color : "#FFFFFF"
             font.pixelSize : 24
             font.family: oxaniumSemiBold.name

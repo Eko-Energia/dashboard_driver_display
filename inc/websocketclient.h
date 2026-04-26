@@ -10,7 +10,7 @@ class WebSocketClient : public QObject
 
 public:
     explicit WebSocketClient(QUrl serverURL, QObject *parent = nullptr);
-    void connectToServer(const QUrl url = QUrl());
+    void connectToServer();
     void sendMessage(const QString& message);
     void subscribeMessages(const QStringList& messageNames);
 signals:

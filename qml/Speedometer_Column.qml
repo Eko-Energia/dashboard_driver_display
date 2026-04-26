@@ -18,7 +18,7 @@ Item {
         id: speed
         anchors.centerIn: parent
         anchors.verticalCenterOffset: 15
-        text : system.values["Speed"]
+        text : (system.dataTick,system.values("SensorData","Speed"))
         color : "#FFFFFF"
         font.pixelSize: 84
         font.family: oxaniumSemiBold.name
