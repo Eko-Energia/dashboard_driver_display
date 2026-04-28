@@ -29,10 +29,8 @@
         <file>qml/Indicators_Row.qml</file>
         <file>qml/Lights_Row.qml</file>
         <file>qml/Main.qml</file>
-        <file>qml/Powermeter_Column.qml</file>
         <file>qml/Powermeter.qml</file>
         <file>qml/Speed_Control.qml</file>
-        <file>qml/Speedometer_Column.qml</file>
         <file>qml/Speedometer.qml</file>
         <file>qml/Top_Row.qml</file>
         <file>qml/Warnings_Row.qml</file>

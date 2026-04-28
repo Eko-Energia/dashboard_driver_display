@@ -21,7 +21,7 @@ signals:
     void valuesChanged();
 public slots:
     void readSnapshot(const QJsonObject& snapshot);
-    void readUpdate(QJsonObject& update);
+    void readUpdate(const QJsonObject& update);
 
 private:
     QHash<QString, CANframe> systemValues_;

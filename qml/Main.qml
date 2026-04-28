@@ -29,6 +29,7 @@ Window {
         fillMode: Image.PreserveAspectCrop
     }
 
+    /*
     Top_Row{
         anchors.horizontalCenter: parent.horizontalCenter
         y: 6
@@ -56,7 +57,7 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
         y: 510
     }
-
+    */
     Gauges{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter

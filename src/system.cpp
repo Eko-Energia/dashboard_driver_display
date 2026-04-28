@@ -27,7 +27,7 @@ void System::updateValues(const QString& frameName, const QString& signalName, c
     if(systemValues_.contains(frameName)){  
         CANframe& frame = systemValues_[frameName];
         frame.updateSignal(signalName, value);
-        qDebug() << "Zaktualizowano ramke:" << frameName << "sygnal:" << signalName << "nowa wartosc:" << value;
+        //qDebug() << "Zaktualizowano ramke:" << frameName << "sygnal:" << signalName << "nowa wartosc:" << value;
     }
     else{
         qDebug() << "System nie zawiera ramki o nazwie:" << frameName;
@@ -45,7 +45,7 @@ void System::readSnapshot(const QJsonObject& snapshot)
     QJsonObject obj = snapshot["data"].toObject();
 
     for (auto it = obj.constBegin(); it != obj.constEnd(); ++it) {
-        qDebug() << "Przetwarzanie ramki:" << it.key();
+        //qDebug() << "Przetwarzanie ramki:" << it.key();
 
         // Zwraca zawartosc danej ramki -> liste pod signals i timestamp ( nie tworzy kopi )
         QJsonObject frameObj = it.value().toObject();
@@ -70,25 +70,26 @@ void System::readSnapshot(const QJsonObject& snapshot)
     emit valuesChanged();
 }
 
-void System::readUpdate(QJsonObject& update){ // poprawic do nowej wersji swag ekranu
+void System::readUpdate(const QJsonObject& update){ // poprawic do nowej wersji swag ekranu
+    // Kazdy update daje tylko jedna ramke
+    QString frame_name = update.value("message_name").toString();
+    // Pod entry jest lista sygnalow i timestamp (nie wazny)
     QJsonObject entry = update.value("entry").toObject();
     QJsonArray signals_list = entry.value("signals").toArray();
 
-    for (auto it = signals_list.begin(); it != signals_list.end(); ++it) {
-
+    for (auto it = signals_list.constBegin(); it != signals_list.constEnd(); ++it) {
         if (!it->isObject())
             continue;
 
         QJsonObject signalObj = it->toObject();
         QString name = signalObj.value("name").toString();
 
-        if (systemValues_.contains(name)) {
-            double value = signalObj.value("value").toDouble();
-            QString strValue = QString::number(value);
-            //systemValues_[name] = strValue; taktyczny kom zeby nie wywalalo 
-            emit valuesChanged();
+        if(systemValues_.contains(frame_name) && systemValues_[frame_name].containsSignal(name)){
+            QString value = signalObj.value("value").toVariant().toString();
+            updateValues(frame_name, name, value);
         }
     }
+    emit valuesChanged();
 }
 
 QString System::values(const QString& frameName,const QString& signalName) const
