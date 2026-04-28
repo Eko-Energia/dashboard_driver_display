@@ -42,6 +42,8 @@ class CANframe{
             }
         }
 
+        bool containsSignal(const QString& signalName) const{return signals_.contains(signalName);}
+
         QString getSigVal(const QString& signalName) const{
             if(signals_.contains(signalName)){
                 return signals_[signalName].getValue();

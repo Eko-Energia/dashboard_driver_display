@@ -20,7 +20,7 @@ public:
 signals:
     void valuesChanged();
 public slots:
-    void readSnapshot(QJsonObject& snapshot);
+    void readSnapshot(const QJsonObject& snapshot);
     void readUpdate(QJsonObject& update);
 
 private:

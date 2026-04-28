@@ -17,9 +17,8 @@ int main(int argc, char *argv[]) {
     WebSocketClient client(QUrl("ws://0.0.0.0:8080"));
     System system;
     Clock clock;
-
     QObject::connect(&client, &WebSocketClient::snapshotReceived, &system, &System::readSnapshot);
-    QObject::connect(&client, &WebSocketClient::updateReceived, &system, &System::readUpdate);
+    //QObject::connect(&client, &WebSocketClient::updateReceived, &system, &System::readUpdate);
 
     client.connectToServer();
 
