@@ -1,78 +1,91 @@
 import QtQuick
 
 Item {
-    implicitWidth: 520
-    implicitHeight: 520
+    id: root
+    width: 520
+    height: root.width
+    property int speedValue: 0
+    property string speedValueText: "null"
+    property string driveMode: "null"
 
-    Image{
-        id: powermeter
+    Image{ // mysle nad zanimowaniem tego efektu kiedys
+        id: bckgrd_glow
+        source: "qrc:/img/gauges/speedometer/glow_left.png"
+        anchors.centerIn: parent
+        fillMode: Image.PreserveAspectFit
+    }
+
+    Image{ // Tło tarczy, numerki, kreseczki i kółeczka
+        id: speedometer_background
         source: "qrc:/img/gauges/speedometer/speedometer.png"
         anchors.centerIn: parent
-        anchors.horizontalCenterOffset: -3
-        anchors.verticalCenterOffset: 7
-        height: 630
-        width: 635
+        fillMode: Image.PreserveAspectFit
+        width: root.width
+        height: root.height
     }
 
-
-    Speed_Control{
-        height: 40
-        width: 50
-        anchors.horizontalCenter: parent.horizontalCenter
-        y:360
-        opacity: 1.0
-    }
-
-    Item {
+    Item { // Kolumna z prędkością, trybem jazdy i stanem tempomatu
+        id : speedometer_column
         anchors.centerIn: parent
-        implicitWidth: speed.width
-        implicitHeight: speed.height + speedUnit.height + driveMode.height
+        width: parent.width
+        height: parent.height
 
-        Text {
-            id: driveMode
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: speed.top
-            text : "D"
-            color : "#FFFFFF"
-            font.pixelSize : 48
-            font.family: oxaniumSemiBold.name
-        }
-
-        Text {
-            id: speed
+        Column {
             anchors.centerIn: parent
-            anchors.verticalCenterOffset: 15
-            text : (system.dataTick,system.values("SensorData","Speed"))
-            color : "#FFFFFF"
-            font.pixelSize: 84
-            font.family: oxaniumSemiBold.name
-        }
+            anchors.verticalCenterOffset: 60
+            spacing : 6
 
-        Text {
-            id: speedUnit
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: speed.bottom
-            text : "km/h"
-            color : "#FFFFFF"
-            font.pixelSize : 20
-            font.family: oxaniumSemiBold.name
-        }
-
-}
-
-    Arrow{
-        id: arrow
-        anchors.centerIn: parent
-
-        transform: Rotation {
-                origin.x: arrow.width/2    // pixel X względem lewego górnego rogu
-                origin.y: arrow.height/2   // pixel Y
-                angle: Math.max(-140, Math.min(140, -140 + (Number(30) * 2)))
+            Text {
+                id: driveMode
+                anchors.horizontalCenter: parent.horizontalCenter
+                text : root.driveMode
+                color : "#D9D9D9"
+                font.pixelSize : 48
+                font.family: oxaniumSemiBold.name
             }
-        Behavior on rotation {
-            SmoothedAnimation {
-                velocity: 30   // stopnie na sekundę
+
+            Text {
+                id: speed
+                anchors.horizontalCenter: parent.horizontalCenter
+                text : root.speedValueText
+                color : "#D9D9D9"
+                font.pixelSize: 72
+                font.family: oxaniumSemiBold.name
+            }
+
+            Text {
+                id: speedUnit
+                anchors.horizontalCenter: parent.horizontalCenter
+                text : "km/h"
+                color : "#D9D9D9"
+                font.pixelSize : 20
+                font.family: oxaniumSemiBold.name
+            }
+
+            Item {
+                height: 90
+                width : 90
+                anchors.horizontalCenter: parent.horizontalCenter
+                Image {
+                    id: cruise_control
+                    source : "qrc:/img/gauges/speedometer/cruise_control.png"
+                    anchors.centerIn:  parent
+                    width: 60
+                    fillMode: Image.PreserveAspectFit
+                    opacity: 1.0 // do zmiany
+                }
             }
         }
     }
+
+    Needle { // Strzaleczka predkosciomierza
+        rotationValue: root.speedValue
+        startAngle: -142 // katy
+        rotationRangeLow: -142 // w katach
+        rotationRangeHigh: 142
+        valueMin: 0 // liczby
+        valueMax: 140
+    }
 }
+
+

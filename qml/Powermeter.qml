@@ -57,7 +57,7 @@ Item {
         }
 }
 
-    Arrow{
+    Needle{
         width: 400
         height: 400
         anchors.centerIn: parent
