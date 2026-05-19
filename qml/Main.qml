@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts //usunac pozniej
+import Qt5Compat.GraphicalEffects
+
 Window {
     visible: true
     width: 1600
@@ -23,13 +25,18 @@ Window {
         source : "qrc:/fonts/Oxanium-SemiBold.ttf"
     }
 
+    FontLoader {
+        id: oxaniumXBold
+        source : "qrc:/fonts/Oxanium-ExtraBold.ttf"
+    }
+
     Image {
         source: "qrc:/img/background.png"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
     }
 
-    /*
+
     Top_Row{
         anchors.horizontalCenter: parent.horizontalCenter
         y: 6
@@ -57,79 +64,79 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
         y: 510
     }
-    */
-    /*
->>>>>>> Stashed changes
-    Gauges{
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-    }
-    */
+
 
     Item {
-        id: root
-        width: 400
-        height: 50
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        // Twoja główna zmienna. Możesz ją zbindować z C++ lub używać w innych miejscach QML
-        property int suwak_v: 50
-        RowLayout {
-            anchors.fill: parent
-            spacing: 15
+            id: root
+            width: 400
+            height: 50
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
 
-            Slider {
-                id: slider
-                Layout.fillWidth: true
-                from: 0
-                to: 100
-                stepSize: 1
+            // Twoja główna zmienna. Możesz ją zbindować z C++ lub używać w innych miejscach QML
+            property int suwak_v: 0 // Dla zakresu od -100 do 100, 0 jest dobrym punktem startowym
 
-                // Łączymy pozycję suwaka ze zmienną
-                value: root.suwak_v
+            RowLayout {
+                anchors.fill: parent
+                spacing: 15
 
-                // Aktualizujemy 'suwak_v' tylko przy fizycznym przesuwaniu suwaka przez użytkownika.
-                // Zapobiega to nieskończonym pętlom wiązań (binding loops).
-                onMoved: {
-                    root.suwak_v = value
-                }
-            }
+                Slider {
+                    id: slider
+                    Layout.fillWidth: true
 
-            TextField {
-                id: inputField
-                Layout.preferredWidth: 60
-                Layout.alignment: Qt.AlignVCenter
-                horizontalAlignment: TextInput.AlignHCenter
+                    // Zmieniono zakres suwaka
+                    from: -100
+                    to: 100
+                    stepSize: 1
 
-                // Ograniczamy wpisywanie z klawiatury tylko do liczb całkowitych od 0 do 100
-                validator: IntValidator { bottom: 0; top: 100 }
+                    // Łączymy pozycję suwaka ze zmienną
+                    value: root.suwak_v
 
-                // Wyświetla aktualny stan zmiennej
-                text: root.suwak_v.toString()
-
-                // Kiedy użytkownik ręcznie wpisuje cyfry, aktualizujemy zmienną w czasie rzeczywistym
-                onTextEdited: {
-                    let parsedValue = parseInt(text)
-                    if (!isNaN(parsedValue)) {
-                        root.suwak_v = parsedValue
+                    // Aktualizujemy 'suwak_v' tylko przy fizycznym przesuwaniu suwaka przez użytkownika.
+                    // Zapobiega to nieskończonym pętlom wiązań (binding loops).
+                    onMoved: {
+                        root.suwak_v = value
                     }
                 }
 
-                // Ważne: wpisanie tekstu przerywa deklaratywny "binding" właściwości text.
-                // Poniższy kod przywraca go, gdy użytkownik skończy edycję (np. wciśnie Enter lub kliknie gdzieś indziej).
-                onEditingFinished: {
-                    if (text === "") {
-                        root.suwak_v = 0 // Zabezpieczenie na wypadek wyczyszczenia pola i wciśnięcia Enter
+                TextField {
+                    id: inputField
+                    Layout.preferredWidth: 60
+                    Layout.alignment: Qt.AlignVCenter
+                    horizontalAlignment: TextInput.AlignHCenter
+
+                    // Ograniczamy wpisywanie z klawiatury tylko do liczb całkowitych od -100 do 100
+                    validator: IntValidator { bottom: -100; top: 100 }
+
+                    // Wyświetla aktualny stan zmiennej
+                    text: root.suwak_v.toString()
+
+                    // Kiedy użytkownik ręcznie wpisuje cyfry, aktualizujemy zmienną w czasie rzeczywistym
+                    onTextEdited: {
+                        let parsedValue = parseInt(text)
+                        if (!isNaN(parsedValue)) {
+                            root.suwak_v = parsedValue
+                        }
                     }
-                    // Ponowne związanie pola tekstowego z naszą zmienną
-                    inputField.text = Qt.binding(() => root.suwak_v.toString())
+
+                    // Ważne: wpisanie tekstu przerywa deklaratywny "binding" właściwości text.
+                    // Poniższy kod przywraca go, gdy użytkownik skończy edycję (np. wciśnie Enter lub kliknie gdzieś indziej).
+                    onEditingFinished: {
+                        // Zabezpieczenie na wypadek wyczyszczenia pola lub zostawienia samego znaku "-"
+                        if (text === "" || text === "-") {
+                            root.suwak_v = 0
+                        }
+                        // Ponowne związanie pola tekstowego z naszą zmienną
+                        inputField.text = Qt.binding(() => root.suwak_v.toString())
+                    }
                 }
             }
         }
-    }
+
     Row{
         spacing: 450
         id: gaugesRow
+        anchors.centerIn: parent
 
         Speedometer{
             speedValue: root.suwak_v
@@ -138,10 +145,10 @@ Window {
         }
 
         Powermeter{
-            anchors.horizontalCenterOffset: 1
-            height: 530
-            width: 535
+            powerValue: root.suwak_v
+            batteryCharge: root.suwak_v / 100
         }
     }
+
 
 }

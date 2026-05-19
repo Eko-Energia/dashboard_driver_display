@@ -21,8 +21,6 @@
         <file>fonts/Oxanium-SemiBold.ttf</file>
         <file>fonts/OFL.txt</file>
         <file>qml/Needle.qml</file>
-        <file>qml/Battery_Charge_Bar.qml</file>
-        <file>qml/Battery_Icon.qml</file>
         <file>qml/Error_Pop_Up.qml</file>
         <file>qml/Indicators_Row.qml</file>
         <file>qml/Lights_Row.qml</file>
@@ -34,5 +32,9 @@
         <file>subs.txt</file>
         <file>img/gauges/speedometer/cruise_control.png</file>
         <file>img/gauges/speedometer/glow_left.png</file>
+        <file>img/gauges/powermeter/glow_right.png</file>
+        <file>fonts/Oxanium-ExtraBold.ttf</file>
+        <file>img/gauges/powermeter/battery/battery_mask.png</file>
+        <file>qml/BatteryBar.qml</file>
     </qresource>
 </RCC>

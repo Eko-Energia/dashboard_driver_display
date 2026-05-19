@@ -4,7 +4,8 @@ Item {
     id: root
     width: 520
     height: root.width
-    property int speedValue: 0
+
+    property real speedValue: 0
     property string speedValueText: "null"
     property string driveMode: "null"
 
