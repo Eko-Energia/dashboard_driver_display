@@ -3,4 +3,3 @@
 # Przykladowy poprawny zapis ramki z sygnalami:
 # NAZWA_RAMKI|SYGNAL1,SYGNAL2,SYGNAL3
 
-VECTOR__INDEPENDENT_SIG_MSG|BMSMaster_MasterBatteryVoltage

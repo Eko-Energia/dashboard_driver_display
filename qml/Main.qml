@@ -7,7 +7,7 @@ Window {
     visible: true
     width: 1600
     height: 600
-    //flags: Qt.FramelessWindowHint
+    flags: Qt.FramelessWindowHint
 
     minimumWidth: 1600
     maximumWidth: 1600
@@ -65,7 +65,7 @@ Window {
         y: 510
     }
 
-
+    /* Suwak do testowania
     Item {
             id: root
             width: 400
@@ -73,8 +73,7 @@ Window {
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
 
-            // Twoja główna zmienna. Możesz ją zbindować z C++ lub używać w innych miejscach QML
-            property int suwak_v: 0 // Dla zakresu od -100 do 100, 0 jest dobrym punktem startowym
+            property int suwak_v: 0
 
             RowLayout {
                 anchors.fill: parent
@@ -84,16 +83,12 @@ Window {
                     id: slider
                     Layout.fillWidth: true
 
-                    // Zmieniono zakres suwaka
                     from: -100
                     to: 100
                     stepSize: 1
 
-                    // Łączymy pozycję suwaka ze zmienną
                     value: root.suwak_v
 
-                    // Aktualizujemy 'suwak_v' tylko przy fizycznym przesuwaniu suwaka przez użytkownika.
-                    // Zapobiega to nieskończonym pętlom wiązań (binding loops).
                     onMoved: {
                         root.suwak_v = value
                     }
@@ -105,13 +100,10 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     horizontalAlignment: TextInput.AlignHCenter
 
-                    // Ograniczamy wpisywanie z klawiatury tylko do liczb całkowitych od -100 do 100
                     validator: IntValidator { bottom: -100; top: 100 }
 
-                    // Wyświetla aktualny stan zmiennej
                     text: root.suwak_v.toString()
 
-                    // Kiedy użytkownik ręcznie wpisuje cyfry, aktualizujemy zmienną w czasie rzeczywistym
                     onTextEdited: {
                         let parsedValue = parseInt(text)
                         if (!isNaN(parsedValue)) {
@@ -119,34 +111,36 @@ Window {
                         }
                     }
 
-                    // Ważne: wpisanie tekstu przerywa deklaratywny "binding" właściwości text.
-                    // Poniższy kod przywraca go, gdy użytkownik skończy edycję (np. wciśnie Enter lub kliknie gdzieś indziej).
+
                     onEditingFinished: {
-                        // Zabezpieczenie na wypadek wyczyszczenia pola lub zostawienia samego znaku "-"
                         if (text === "" || text === "-") {
                             root.suwak_v = 0
                         }
-                        // Ponowne związanie pola tekstowego z naszą zmienną
                         inputField.text = Qt.binding(() => root.suwak_v.toString())
                     }
                 }
             }
         }
-
+    */
     Row{
         spacing: 450
         id: gaugesRow
         anchors.centerIn: parent
 
         Speedometer{
-            speedValue: root.suwak_v
-            speedValueText: Math.floor(root.suwak_v * 1.4).toString()
+            speedValue: 90 // root.suwak_v
+            speedValueText: "90" // Math.floor(root.suwak_v * 1.4).toString()
             driveMode: "D"
         }
 
         Powermeter{
-            powerValue: root.suwak_v
-            batteryCharge: root.suwak_v / 100
+            powerValue: 12
+            batteryCharge: 0.9
+            /*
+            {
+                system.dataTick;
+                return system.values("VECTOR__INDEPENDENT_SIG_MSG","BMSMaster_MasterBatteryVoltage");
+            }*/
         }
     }
 
