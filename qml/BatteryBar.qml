@@ -56,7 +56,7 @@ ProgressBar {
                     startAngle: root.startAngle
 
                     sweepAngle: {
-                        let visualProgress = Math.max(0.01, Math.min(1.0, root.chargeValue));
+                        let visualProgress = Math.max(0.01, Math.min(1.0, root.chargeValue/100));
                         return visualProgress * root.totalSweepAngle;
                     }
                 }

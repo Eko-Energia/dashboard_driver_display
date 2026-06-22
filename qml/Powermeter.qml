@@ -62,7 +62,7 @@ Item {
 
             Text {
                 id: battery_text
-                text: (Math.floor(root.batteryCharge*100)).toString()
+                text: (Math.round(root.batteryCharge)).toString() + "%"
                 color: "#DD9117"
                 font.pixelSize: 24
                 font.family: oxaniumXBold.name

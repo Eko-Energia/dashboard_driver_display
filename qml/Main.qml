@@ -134,7 +134,7 @@ Window {
                 let rightRPM = Number(system.values("EngineRight_STATIC_TPDO1","RightMotorRPM"));
                 let leftRPM = Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorRPM"));
                 // Srednia z obrotow -> dzielenie przez 6 (przekladnia) -> droga przebyta przez kolo obrot ->  zamiana jednostek
-                return Math.floor((rightRPM+leftRPM)/12 * (2*Math.PI*0.35) * (60/1000))
+                return Math.abs(Math.round((rightRPM+leftRPM)/12 * (2*Math.PI*0.35) * (60/1000)))
             }
             speedValueText : speedValue
 
@@ -158,12 +158,17 @@ Window {
 
         Powermeter{
             powerValue: 12
-            batteryCharge: 0.9
-            /*
+            batteryCharge:
             {
+                /*
+                  Totalnie nie podoba mi sie ten sposob obliczania stanu baterii
+                  Rozwiazanie chwilowe, nasza bateria na 100% nie ma charakterystyki
+                  liniowej xdddddd
+                */
+
                 system.dataTick;
-                return system.values("VECTOR__INDEPENDENT_SIG_MSG","BMSMaster_MasterBatteryVoltage");
-            }*/
+                return (Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryVoltage"))-63) / 24 * 100
+            }
         }
     }
 

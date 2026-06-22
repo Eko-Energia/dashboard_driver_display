@@ -10,3 +10,5 @@ EngineLeft_STATIC_TPDO1|LeftMotorRPM
 # Aktualny bieg
 Dashboard_Control|PRND
 
+# Stan naladowania baterii
+BMSMaster_MasterVoltCurrTemp|BMSMaster_MasterBatteryVoltage

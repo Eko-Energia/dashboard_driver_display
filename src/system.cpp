@@ -16,7 +16,6 @@ System::System(QObject *parent) : QObject(parent) {
 
 }
 void System::updateValues(const QString& frameName, const QString& signalName, const QString& value){
-
     if (frameName.isEmpty() || signalName.isEmpty() || value.isEmpty()) {
         qWarning() << "System::UpdateValues: Próba aktualizacji pustymi danymi!" 
                    << "Frame:" << frameName 

@@ -29,10 +29,7 @@ Item {
         Text{
             id: temperature
             anchors.verticalCenter: parent.verticalCenter
-            text : {
-                system.dataTick; 
-                return system.values("MotorStatus","MotorTemp");
-            }            
+            text : '22'
             color : "#FFFFFF"
             font.pixelSize : 24
             font.family: oxaniumSemiBold.name
