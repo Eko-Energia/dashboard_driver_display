@@ -12,7 +12,7 @@ System::System(QObject *parent) : QObject(parent) {
         systemValues_.insert(frame.getName(), frame);
     }
 
-    //qDebug() << "System initialized with frames:" << systemValues_;
+    qDebug() << "System initialized with frames:" << systemValues_;
 
 }
 void System::updateValues(const QString& frameName, const QString& signalName, const QString& value){

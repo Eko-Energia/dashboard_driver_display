@@ -127,10 +127,33 @@ Window {
         id: gaugesRow
         anchors.centerIn: parent
 
-        Speedometer{
-            speedValue: 90 // root.suwak_v
-            speedValueText: "90" // Math.floor(root.suwak_v * 1.4).toString()
-            driveMode: "D"
+        Speedometer{        
+            speedValue : // root.suwak_v
+            {
+                system.dataTick;
+                let rightRPM = Number(system.values("EngineRight_STATIC_TPDO1","RightMotorRPM"));
+                let leftRPM = Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorRPM"));
+                // Srednia z obrotow -> dzielenie przez 6 (przekladnia) -> droga przebyta przez kolo obrot ->  zamiana jednostek
+                return Math.floor((rightRPM+leftRPM)/12 * (2*Math.PI*0.35) * (60/1000))
+            }
+            speedValueText : speedValue
+
+            driveMode:{
+                system.dataTick;
+                let gear = Number(system.values("Dashboard_Control","PRND"));
+                switch(gear){
+                case 0:
+                    return "P"
+                case 1:
+                    return "N"
+                case 2:
+                    return "R"
+                case 3:
+                    return "D"
+                default:
+                    console.log("Out of range value for PRND")
+                }
+            }
         }
 
         Powermeter{
