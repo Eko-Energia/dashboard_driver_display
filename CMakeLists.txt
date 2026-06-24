@@ -35,7 +35,7 @@ project(eko_dash2 VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 list(APPEND CMAKE_PREFIX_PATH "${QT_PATH}")
-find_package(Qt6 6.9.3 EXACT REQUIRED COMPONENTS Quick WebSockets)
+find_package(Qt6 6.9.3 EXACT REQUIRED COMPONENTS Quick WebSockets Core5Compat)
 
 set(CMAKE_AUTOMOC ON)        
 set(CMAKE_AUTORCC ON)     
@@ -76,6 +76,7 @@ set_target_properties(appeko_dashboard PROPERTIES
 target_link_libraries(appeko_dashboard
     PRIVATE Qt6::Quick
     PRIVATE Qt6::WebSockets
+    PRIVATE Qt6::Core5Compat
 )
 
 include(GNUInstallDirs)

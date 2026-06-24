@@ -166,6 +166,13 @@ Window {
                   liniowej xdddddd
                 */
 
+                /* FRONTEND KOMENTARZ
+                  Naladowanie baterii zawsze przy odpaleniu ekranu bez pelnego cana (tzn BMS'a) powinno wskazywac -262
+                  Wynika to z faktu ze przy dynamicznym dodawaniu ramek i sygnalow do klasy system maja one domyslnie zawsze wartosc 0
+                  Wiec wartosci ktore najnizej nie sa 0 moga sie psuc (na tej lopatologicznej wersji baterii 63 to najmniejsze napiecie)
+                  Da sie to naprawic robiac jakies dzikie ladowania dbc'ka i ustawianie wartosci domyslnych na jego podstawie
+                  Ale po co jak can-receiver i tak wysyla snapszota?
+                  */
                 system.dataTick;
                 return (Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryVoltage"))-63) / 24 * 100
             }
