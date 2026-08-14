@@ -62,7 +62,8 @@ Item {
 
             Text {
                 id: battery_text
-                text: (Math.round(root.batteryCharge)).toString() + "%"
+                // Musi byc min bo przy domyslnych wartosciach beda dziwne ujemne liczby
+                text: (Math.max(0,Math.round(root.batteryCharge))).toString() + "%"
                 color: "#DD9117"
                 font.pixelSize: 24
                 font.family: oxaniumXBold.name
@@ -103,7 +104,7 @@ Item {
         }
 }
 
-    Needle { // Strzaleczka predkosciomierza
+    Needle { // Strzaleczka
         rotationValue: root.powerValue
         startAngle: -60 // katy
         rotationRangeLow: -140 // w katach

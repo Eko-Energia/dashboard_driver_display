@@ -5,13 +5,22 @@ Item {
     width: parent.width
     height: parent.height
 
+    // Aktualna wartość wejściowa (np. obecna moc w W/kW lub prędkość), która steruje ruchem wskazówki
     property real rotationValue: 0
+
+    // Kąt spoczynkowy wskazówki odpowiadający wartości 0 (środek skali/punkt zerowy)
     property real startAngle: 0
 
+    // Minimalny dopuszczalny kąt wychylenia wskazówki (lewy koniec skali tarczy)
     property real rotationRangeLow: 0
+
+    // Maksymalny dopuszczalny kąt wychylenia wskazówki (prawy koniec skali tarczy)
     property real rotationRangeHigh: 0
 
+    // Minimalna odczytywana wartość logiczna
     property real valueMin: 0
+
+    // Maksymalna odczytywana wartość logiczna
     property real valueMax: 0
 
     Image {

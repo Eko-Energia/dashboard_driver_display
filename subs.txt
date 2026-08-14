@@ -11,4 +11,11 @@ EngineLeft_STATIC_TPDO1|LeftMotorRPM
 Dashboard_Control|PRND
 
 # Stan naladowania baterii
-BMSMaster_MasterVoltCurrTemp|BMSMaster_MasterBatteryVoltage
+BMSMaster_MasterVoltCurrTemp|BMSMaster_MasterBatteryVoltage,BMSMaster_MasterBatteryCurrent
+
+# Swiatla
+# co do sygnalow nie mam pojecia co autor dbc mial na mysli to trzeba to zweryfikowac pozniej
+LightsFR_Status|direction,headlights,highBeams,day
+LightsFL_Status|direction,headlights,highBeams,day
+LightsRR_Status|direction,positionSide
+LightsRR_Status|direction,positionSide

@@ -145,19 +145,25 @@ Window {
                 case 0:
                     return "P"
                 case 1:
-                    return "N"
-                case 2:
                     return "R"
+                case 2:
+                    return "N"
                 case 3:
                     return "D"
                 default:
                     console.log("Out of range value for PRND")
+                    return "?"
                 }
             }
         }
 
         Powermeter{
-            powerValue: 12
+            powerValue:
+            {
+                system.dataTick;
+                return Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryCurrent")) * Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryVoltage")) / 1000.0
+            }
+
             batteryCharge:
             {
                 /*
@@ -165,14 +171,6 @@ Window {
                   Rozwiazanie chwilowe, nasza bateria na 100% nie ma charakterystyki
                   liniowej xdddddd
                 */
-
-                /* FRONTEND KOMENTARZ
-                  Naladowanie baterii zawsze przy odpaleniu ekranu bez pelnego cana (tzn BMS'a) powinno wskazywac -262
-                  Wynika to z faktu ze przy dynamicznym dodawaniu ramek i sygnalow do klasy system maja one domyslnie zawsze wartosc 0
-                  Wiec wartosci ktore najnizej nie sa 0 moga sie psuc (na tej lopatologicznej wersji baterii 63 to najmniejsze napiecie)
-                  Da sie to naprawic robiac jakies dzikie ladowania dbc'ka i ustawianie wartosci domyslnych na jego podstawie
-                  Ale po co jak can-receiver i tak wysyla snapszota?
-                  */
                 system.dataTick;
                 return (Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryVoltage"))-63) / 24 * 100
             }

@@ -63,6 +63,7 @@ Item {
                 font.family: oxaniumSemiBold.name
             }
 
+            /* nie ma tempomatu narazie
             Item {
                 height: 90
                 width : 90
@@ -76,6 +77,7 @@ Item {
                     opacity: 1.0 // do zmiany
                 }
             }
+            */
         }
     }
 
