@@ -14,8 +14,4 @@ Dashboard_Control|PRND
 BMSMaster_MasterVoltCurrTemp|BMSMaster_MasterBatteryVoltage,BMSMaster_MasterBatteryCurrent
 
 # Swiatla
-# co do sygnalow nie mam pojecia co autor dbc mial na mysli to trzeba to zweryfikowac pozniej
-LightsFR_Status|direction,headlights,highBeams,day
-LightsFL_Status|direction,headlights,highBeams,day
-LightsRR_Status|direction,positionSide
-LightsRR_Status|direction,positionSide
+Dashboard_Lights|Headlights,TurnSignal_Left,TurnSignal_Right,Emergency

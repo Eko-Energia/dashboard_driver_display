@@ -1,76 +1,116 @@
 import QtQuick
 
+
 Item {
-    implicitWidth: lightsRow.implicitWidth
-    implicitHeight: lightsRow.implicitHeight
 
-    Row {
-        spacing: 53
-        id: lightsRow
+   implicitWidth: lightsRow.implicitWidth
 
-        property bool isParkOn: {
-            system.dataTick;
-            let fr = Number(system.values("LightsFR_Status", "day")) || 0;
-            let fl = Number(system.values("LightsFL_Status", "day")) || 0;
-            let rr = Number(system.values("LightsRR_Status", "positionSide")) || 0;
-            let rl = Number(system.values("LightsRL_Status", "positionSide")) || 0;
-            return fr || fl || rr || rl;
-        }
-
-        property bool isLowBeamsOn: {
-            system.dataTick;
-            let fr = Number(system.values("LightsFR_Status", "headlights")) || 0;
-            let fl = Number(system.values("LightsFL_Status", "headlights")) || 0;
-            return fr || fl;
-        }
-
-        property bool isHighBeamsOn: {
-            system.dataTick;
-            let fr = Number(system.values("LightsFR_Status", "highBeams")) || 0;
-            let fl = Number(system.values("LightsFL_Status", "highBeams")) || 0;
-            return fr || fl;
-        }
-
-        property bool isHazardOn: {
-            system.dataTick;
-            let fr = Number(system.values("LightsFR_Status", "direction")) || 0;
-            let fl = Number(system.values("LightsFL_Status", "direction")) || 0;
-            let rr = Number(system.values("LightsRR_Status", "direction")) || 0;
-            let rl = Number(system.values("LightsRL_Status", "direction")) || 0;
-            return fr || fl || rr || rl;
-        }
+   implicitHeight: lightsRow.implicitHeight
 
 
-        //park_lights
-        Image {
-            source : "qrc:/img/lights/park_lights.png"
-            width: 72
-            height: 50
-            opacity: lightsRow.isParkOn ? 1.0 : 0.05
-        }
+   Row {
 
-        //low_beams
-        Image {
-            source : "qrc:/img/lights/low_beams.png"
-            width: 50
-            height: 50
-            opacity: lightsRow.isLowBeamsOn ? 1.0 : 0.05
-        }
+       spacing: 53
 
-        //full_beams
-        Image {
-            source : "qrc:/img/lights/full_beams.png"
-            width: 50
-            height: 50
-            opacity: lightsRow.isHighBeamsOn ? 1.0 : 0.05
-        }
+       id: lightsRow
 
-        //hazard_lights
-        Image {
-            source : "qrc:/img/lights/hazard_lights.png"
-            width: 50
-            height: 50
-            opacity: lightsRow.isHazardOn ? 1.0 : 0.05
-        }
-    }
+
+       property bool isParkOn: {
+
+           system.dataTick;
+
+           Number(system.values("Dashboard_Lights", "Headlights")) === 1 || Number(system.values("Dashboard_Lights", "Headlights")) === 2;
+
+       }
+
+
+       property bool isLowBeamsOn: {
+
+           system.dataTick;
+
+           Number(system.values("Dashboard_Lights","Headlights")) === 3;
+
+       }
+
+
+       property bool isHighBeamsOn: {
+
+           system.dataTick;
+
+           Number(system.values("Dashboard_Lights","Headlights")) === 4;
+
+       }
+
+
+       property bool isHazardOn: {
+
+           system.dataTick;
+
+           Number(system.values("Dashboard_Lights","Emergency")) === 1;
+
+       }
+
+
+
+       //park_lights
+
+       Image {
+
+           source : "qrc:/img/lights/park_lights.png"
+
+           width: 72
+
+           height: 50
+
+           opacity: lightsRow.isParkOn ? 1.0 : 0.05
+
+       }
+
+
+       //low_beams
+
+       Image {
+
+           source : "qrc:/img/lights/low_beams.png"
+
+           width: 50
+
+           height: 50
+
+           opacity: lightsRow.isLowBeamsOn ? 1.0 : 0.05
+
+       }
+
+
+       //full_beams
+
+       Image {
+
+           source : "qrc:/img/lights/full_beams.png"
+
+           width: 50
+
+           height: 50
+
+           opacity: lightsRow.isHighBeamsOn ? 1.0 : 0.05
+
+       }
+
+
+       //hazard_lights
+
+       Image {
+
+           source : "qrc:/img/lights/hazard_lights.png"
+
+           width: 50
+
+           height: 50
+
+           opacity: lightsRow.isHazardOn ? 1.0 : 0.05
+
+       }
+
+   }
+
 }

@@ -55,73 +55,17 @@ Window {
         opacity: 1.0
     }
 
+    /* Nie zaimplementowane
     Warnings_Row{
         anchors.horizontalCenter: parent.horizontalCenter
         y: 430
-    }
+    }*/
 
     Lights_Row{
         anchors.horizontalCenter: parent.horizontalCenter
         y: 510
     }
 
-    /* Suwak do testowania
-    Item {
-            id: root
-            width: 400
-            height: 50
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            property int suwak_v: 0
-
-            RowLayout {
-                anchors.fill: parent
-                spacing: 15
-
-                Slider {
-                    id: slider
-                    Layout.fillWidth: true
-
-                    from: -100
-                    to: 100
-                    stepSize: 1
-
-                    value: root.suwak_v
-
-                    onMoved: {
-                        root.suwak_v = value
-                    }
-                }
-
-                TextField {
-                    id: inputField
-                    Layout.preferredWidth: 60
-                    Layout.alignment: Qt.AlignVCenter
-                    horizontalAlignment: TextInput.AlignHCenter
-
-                    validator: IntValidator { bottom: -100; top: 100 }
-
-                    text: root.suwak_v.toString()
-
-                    onTextEdited: {
-                        let parsedValue = parseInt(text)
-                        if (!isNaN(parsedValue)) {
-                            root.suwak_v = parsedValue
-                        }
-                    }
-
-
-                    onEditingFinished: {
-                        if (text === "" || text === "-") {
-                            root.suwak_v = 0
-                        }
-                        inputField.text = Qt.binding(() => root.suwak_v.toString())
-                    }
-                }
-            }
-        }
-    */
     Row{
         spacing: 450
         id: gaugesRow

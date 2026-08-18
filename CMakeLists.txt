@@ -43,8 +43,6 @@ set(CMAKE_AUTOUIC ON)
 
 qt_add_executable(appeko_dashboard
     resources.qrc
-    inc/blinker.h
-    src/blinker.cpp
     inc/clock.h
     src/clock.cpp
     src/main.cpp

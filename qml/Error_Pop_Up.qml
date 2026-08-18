@@ -6,6 +6,7 @@ Item {
         anchors.fill: parent
     }
 
+    /* niezaimplementowane
     Text{
         id: error_pop_up_title
         anchors.horizontalCenter: parent.horizontalCenter
@@ -25,6 +26,6 @@ Item {
         color : "#FFFFFF"
         font.pixelSize : 24
         font.family: oxaniumSemiBold.name
-    }
+    }*/
 }
 
