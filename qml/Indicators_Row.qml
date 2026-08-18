@@ -7,12 +7,12 @@ Item {
 
     property bool isLeftActive: {
         system.dataTick;
-        Number(system.values("Dashboard_Lights", "TurnSignal_Left")) === 1
+        Number(system.values("Dashboard_Lights", "TurnSignal_Left")) === 1 || Number(system.values("Dashboard_Lights", "TurnSignal_Left")) === 2
     }
 
     property bool isRightActive: {
         system.dataTick;
-        Number(system.values("Dashboard_Lights", "TurnSignal_Right")) === 1
+        Number(system.values("Dashboard_Lights", "TurnSignal_Right")) === 1 || Number(system.values("Dashboard_Lights", "TurnSignal_Right")) === 2
     }
 
     property bool blinkState: false
