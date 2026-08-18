@@ -45,7 +45,7 @@ Item {
             source : "qrc:/img/indicators/left_indicator.png"
             width: 50
             height: 50
-            opacity: (root.isLeftActive && root.blinkState) ? 1.0 : 0.05
+            opacity: (root.isLeftActive && root.blinkState) ? 1.0 : 0.0
         }
 
         // right_indicator
@@ -53,7 +53,7 @@ Item {
             source : "qrc:/img/indicators/right_indicator.png"
             width: 50
             height: 50
-            opacity: (root.isRightActive && root.blinkState) ? 1.0 : 0.05
+            opacity: (root.isRightActive && root.blinkState) ? 1.0 : 0.0
         }
     }
 }
