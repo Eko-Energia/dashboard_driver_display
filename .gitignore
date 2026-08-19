@@ -1,1 +1,4 @@
 build/
+.qtcreator/
+can_mock/
+Generated/

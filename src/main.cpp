@@ -6,36 +6,29 @@
 #include <iomanip>
 #include <thread>
 #include "system.h"
+#include "websocketclient.h"
+#include "clock.h"
+#include "functions.h"
 
-/*TODO
-
-Ogarnac const correctnes w backendize
-pousuwac zbedny kod, i dodac funkcje do debugowania
-dokonczyc skrypt w bashu do testow
-zrobic fajna dokumentajce
-przetestowac wszystko i finito
-
-zapytac ilony co z frontem / samemu sie wziac za to na powaznie
-
-*/
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
-    
     QQmlApplicationEngine engine;
-    
-    System system(&engine, "vcan0" );
 
-    std::thread systemThread([&system]() {
-        system.start();
-    });
-    systemThread.detach();
-    
+    WebSocketClient client(QUrl("ws://0.0.0.0:8080"));
+    System system;
+    Clock clock;
+    QObject::connect(&client, &WebSocketClient::snapshotReceived, &system, &System::readSnapshot);
+    QObject::connect(&client, &WebSocketClient::updateReceived, &system, &System::readUpdate);
+
+    client.connectToServer();
+
+    engine.rootContext()->setContextProperty("clock", &clock);
+    engine.rootContext()->setContextProperty("system", &system);
+
     engine.load(QUrl("qrc:/qml/Main.qml"));
     if (engine.rootObjects().isEmpty()) {return -1;}
 
-    
 
-    int appResult = app.exec();
-
-    return appResult;
+    return app.exec();
 }
+

@@ -6,6 +6,7 @@ Item {
         anchors.fill: parent
     }
 
+    /* niezaimplementowane
     Text{
         id: error_pop_up_title
         anchors.horizontalCenter: parent.horizontalCenter
@@ -21,10 +22,10 @@ Item {
         x: 24
         anchors.top: error_pop_up_title.bottom
         anchors.topMargin: 10
-        text : "# 0420 Check engine!"
+        text : "Jakis blad"
         color : "#FFFFFF"
         font.pixelSize : 24
         font.family: oxaniumSemiBold.name
-    }
+    }*/
 }
 

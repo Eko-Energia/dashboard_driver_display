@@ -1,41 +1,116 @@
 import QtQuick
+import Qt5Compat.GraphicalEffects
 
 Item {
-    implicitWidth: 520
-    implicitHeight: 520
+    id: root
+    width: 520
+    height: 520
+    property real powerValue: 0
+    property real batteryCharge: 0
+
+    FontLoader {
+            id: oxaniumSemiBold
+            source : "qrc:/fonts/Oxanium-SemiBold.ttf"
+    }
+
+    FontLoader {
+            id: oxaniumXBold
+            source : "qrc:/fonts/Oxanium-ExtraBold.ttf"
+    }
 
     Image{
-        id: powermeter
+        id: bckgrd_glow
+        source: "qrc:/img/gauges/powermeter/glow_right.png"
+        anchors.centerIn: parent
+        fillMode: Image.PreserveAspectFit
+    }
+
+    Image{
+        id: powermeter_background
         source: "qrc:/img/gauges/powermeter/powermeter.png"
         anchors.centerIn: parent
-        anchors.horizontalCenterOffset: 6
-        anchors.verticalCenterOffset: 7
-        height: 630
-        width: 635
+        fillMode: Image.PreserveAspectFit
+        width: root.width
+        height: root.height
     }
 
-    Battery_Charge_Bar{
+    Item {
+        id: battery_indicator
+        width: parent.width
+        height: parent.height
         anchors.centerIn: parent
-        height: 602
-        width: 602
+
+
+        BatteryBar{
+            chargeValue: root.batteryCharge
+            startAngle: 114
+            endAngle: 16
+        }
+
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            y: 450
+            spacing: 2
+
+            Image {
+                id: battery_icon
+                source: "qrc:/img/gauges/powermeter/battery/battery_icon.png"
+                fillMode: Image.PreserveAspectFit
+                sourceSize.width: 50
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Text {
+                id: battery_text
+                // Musi byc min bo przy domyslnych wartosciach beda dziwne ujemne liczby
+                text: (Math.max(0,Math.round(root.batteryCharge))).toString() + "%"
+                color: "#DD9117"
+                font.pixelSize: 24
+                font.family: oxaniumXBold.name
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+        }
     }
 
-    Battery_Icon{
-        height: 36
-        width: 50
-        x: 153
-        y: 461
-    }
-
-    Powermeter_Column{
+    Item {
+        id: powermeter_column
         anchors.centerIn: parent
-    }
+        width: parent.width
+        height: parent.height
 
-    Arrow{
-        width: 400
-        height: 400
-        anchors.centerIn: parent
-        rotation: 20
+        Column{
+            anchors.centerIn: parent
+            anchors.verticalCenterOffset: 14
+            spacing : 6
+
+            Text {
+                id: power
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: (Math.floor(root.powerValue)).toString()
+                color: "#D9D9D9"
+                font.pixelSize: 72
+                font.family: oxaniumSemiBold.name
+            }
+
+            Text {
+                id: powerUnit
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "kW"
+                color: "#D9D9D9"
+                font.pixelSize: 20
+                font.family: oxaniumSemiBold.name
+            }
+        }
+}
+
+    Needle { // Strzaleczka
+        rotationValue: root.powerValue
+        startAngle: -60 // katy
+        rotationRangeLow: -140 // w katach
+        rotationRangeHigh: 100
+        valueMin: -10 // liczby
+        valueMax: 20
     }
 
 }

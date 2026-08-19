@@ -1,0 +1,17 @@
+# Lista subskrypcji wiadomosci dla aplikacji ekranu. Żeby zaktualizować subskrypcje po zapisaniu .txt należy zrestartowac aplikacje ekranu
+# Jedna ramka na linijke, inaczej pewnie blednie zparsuje
+# Przykladowy poprawny zapis ramki z sygnalami:
+# NAZWA_RAMKI|SYGNAL1,SYGNAL2,SYGNAL3
+
+# Obserwowanie predkosci obrotowej obu silnikow
+EngineRight_STATIC_TPDO1|RightMotorRPM
+EngineLeft_STATIC_TPDO1|LeftMotorRPM
+
+# Aktualny bieg
+Dashboard_Control|PRND
+
+# Stan naladowania baterii
+BMSMaster_MasterVoltCurrTemp|BMSMaster_MasterBatteryVoltage,BMSMaster_MasterBatteryCurrent
+
+# Swiatla
+Dashboard_Lights|Headlights,TurnSignal_Left,TurnSignal_Right,Emergency

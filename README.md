@@ -1,24 +1,33 @@
-## Driver Screen
-The driver screen is still under development, current design is outdated. The new frontend will be developed by Martyna Szewczyk once we receive the final survey results and the completed design assets.
-The CAN communication layer I created for testing will be fully replaced with the unified version developed by Olek Jóźwik once it becomes available.
+## Ekran Kierowcy
 
-<h1 align="center"><strong>Current State of the Driver Screen</strong></h1>
+Program służy do wyświetlania danych przesyłanych przez magistralę CAN w czytelnej formie dla kierowcy, informujących o aktualnym stanie pojazdu Perła.
+
+
+<h1 align="center"><strong>Obecna wersja ekranu</strong></h1>
 <img width="1600" height="600" alt="dashboard-mock-up" src="https://github.com/user-attachments/assets/44e8a73c-0876-4c98-b29a-63b999ad8bc5" />
 
+## Funkcje
+- Wysyłanie subskrypcji ramek do serwera
+- Odbiór JSON-ów i ich parsowanie
+- Aktualizacja i wyświetlanie odbieranych danych
 
-## Requirements to Run the Application
+## Wymogi do uruchomienia
 
-A Linux system (CAN-related libraries are required)
+System linux z obsługą sieci CAN (socketcan)
 
-## Requirements to Compile
+Aplikacja odbierająca ramki CAN, [can-receiver](https://github.com/Eko-Energia/Perla-Monitor/tree/main/can-receiver) 
 
-Linux system
+Opcjonalnie : do symulacji ramek na vcan [perla-bus](https://github.com/Eko-Energia/Perla-Monitor/tree/main/perla-bus)
 
-Qt 6.9.2
+## Wymogi do kompilacji
 
-CMake (at least version 3.16)
+CMake 3.16+
 
-C++ compiler supporting at least the C17 standard
+Qt 6.8 +
+
+Kompilator C++ ze standardem C17
+
+
 
 <br>
 <br>
@@ -26,4 +35,4 @@ C++ compiler supporting at least the C17 standard
 <br>
 <br>
 <br>
-Author - Igor Lelito
+Autor - Igor Lelito

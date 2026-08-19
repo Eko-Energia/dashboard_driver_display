@@ -1,146 +1,104 @@
 #include "system.h"
-#include <QQmlContext>
+#include <QDebug>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
+#include <QVariant>
 
-double decodeRawData(const deviceInfo* devInfo) {
-    if (devInfo->specs.dataType == "uint") { 
-        //std::cout << "DECODE_RAW_DATA uint : " << static_cast<uint>(devInfo->rawData) << std::endl; // DEBUG
-        return static_cast<uint>(devInfo->rawData) * devInfo->specs.factor + devInfo->specs.offset; 
-    } 
+System::System(QObject *parent) : QObject(parent) {
+    QList<CANframe> frames = loadSubscriptions();
 
-    if (devInfo->specs.dataType == "int8_t") { // Problemy z rzutowaniem, zakladam ze dla kazdego rozmiaru inta bede musial robic osobna implementacje, polecam poczytac co to kod uzupelnien do dwoch, zeby dostac ujemna liczbe 00001000 > negujesz > 11110111 > dodajesz 1 > 11111000
-        //std::cout << "DECODE_RAW_DATA int8_t : " << static_cast<int>(static_cast<int8_t>(devInfo->rawData)) << std::endl; // DEBUG
-        return static_cast<int>(static_cast<int8_t>(devInfo->rawData)) * devInfo->specs.factor + devInfo->specs.offset; 
-    } // W int trzeba uzyc podwojnego rzutowania bo rawData jest typu uint wiec inaczej nie zrozumie ze ujemna.
-
-    if (devInfo->specs.dataType == "char") { 
-        return static_cast<uint>(devInfo->rawData); // Narazie jest na uint bo nie wiem jaki bedzie sygnal, wiec 0-P 2-R bla bla bla
+    for (const CANframe& frame : frames) {
+        systemValues_.insert(frame.getName(), frame);
     }
-    
-    if (devInfo->specs.dataType == "bool") { return static_cast<bool>(devInfo->rawData); } // Zakladam ze tu factor itd nie bedzie potrzebny
 
-    else {
-        std::cout << "Nieznany typ sygnału" << std::endl;
-        return 0.0;
+    qDebug() << "System initialized with frames:" << systemValues_;
+
+}
+void System::updateValues(const QString& frameName, const QString& signalName, const QString& value){
+    if (frameName.isEmpty() || signalName.isEmpty() || value.isEmpty()) {
+        qWarning() << "System::UpdateValues: Próba aktualizacji pustymi danymi!" 
+                   << "Frame:" << frameName 
+                   << "Signal:" << signalName;
+        return;
+    }
+
+    if(systemValues_.contains(frameName)){  
+        CANframe& frame = systemValues_[frameName];
+        frame.updateSignal(signalName, value);
+        //qDebug() << "Zaktualizowano ramke:" << frameName << "sygnal:" << signalName << "nowa wartosc:" << value;
+    }
+    else{
+        qDebug() << "System nie zawiera ramki o nazwie:" << frameName;
     }
 }
 
-void passToSystem(deviceInfo *devInfo, System* system){
-    switch (devInfo->id) {
-    case 0x10: { // Battery
-        system->battery.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x01: { // Temperature
-        system->temperature.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x02: { // Mileage
-        system->mileage.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x03: { // Speedometer
-        system->speedometer.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x04: { // Drivemode (char)
-        system->drivemode.setGear(decodeRawData(devInfo));
-        break;
-    }
-    case 0x05: { // Engine power
-        system->engine_power.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x06: { // Low beam
-        system->low_beam.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x07: { // High beam
-        system->high_beam.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x08: { // Parking lights
-        system->parking_lights.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x09: { // Hazard lights
-        system->hazard_lights.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x0A: { // Right blinker
-        system->blinkerRight.newState(decodeRawData(devInfo));
-        break;
-    }
-    case 0x0B: { // Left blinker
-        system->blinkerLeft.newState(decodeRawData(devInfo));
-        break;
-    }
-    case 0x0C: { // High temperature warning
-        system->high_temperature.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x0D: { // Engine failure
-        system->engine_failure.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x0E: { // Power failure
-        system->power_failure.setValue(decodeRawData(devInfo));
-        break;
-    }
-    case 0x0F: { // Cruise control
-        system->cruise_control.setValue(decodeRawData(devInfo));
-        break;
-    }
-}
-}
-
-System::System(QQmlApplicationEngine* engine, const std::string &bus_name) :
-    run_(false),
-    can(bus_name), 
-    battery(QMetaType(QMetaType::UInt)),
-    temperature(QMetaType(QMetaType::Int)),
-    mileage(QMetaType(QMetaType::UInt)),
-    speedometer(QMetaType(QMetaType::UInt)),
-    drivemode(QMetaType(QMetaType::Char), "P"), // Zaklada ze skrzynia biegow bedzie zwracac jakas sb liczbe
-    engine_power(QMetaType(QMetaType::Int)),
-    low_beam(QMetaType(QMetaType::Bool)),
-    high_beam(QMetaType(QMetaType::Bool)),
-    parking_lights(QMetaType(QMetaType::Bool)),
-    hazard_lights(QMetaType(QMetaType::Bool)),
-    high_temperature(QMetaType(QMetaType::Bool)),
-    engine_failure(QMetaType(QMetaType::Bool)),
-    power_failure(QMetaType(QMetaType::Bool)),
-    cruise_control(QMetaType(QMetaType::Bool))
-    //open_door(QVariant::fromValue<bool>(false)) Narazie nie uzywamy
-    //blinker i clock maja konstruktory domyslne
+void System::readSnapshot(const QJsonObject& snapshot)
 {
-    engine->rootContext()->setContextProperty("clock", &clock);
-    engine->rootContext()->setContextProperty("battery", &battery);
-    engine->rootContext()->setContextProperty("temperature", &temperature);
-    engine->rootContext()->setContextProperty("mileage", &mileage);
-    engine->rootContext()->setContextProperty("speedometer", &speedometer);
-    engine->rootContext()->setContextProperty("drivemode", &drivemode);
-    engine->rootContext()->setContextProperty("engine_power", &engine_power);
-    engine->rootContext()->setContextProperty("low_beam", &low_beam);
-    engine->rootContext()->setContextProperty("high_beam", &high_beam);
-    engine->rootContext()->setContextProperty("parking_lights", &parking_lights);
-    engine->rootContext()->setContextProperty("hazard_lights", &hazard_lights);
-    engine->rootContext()->setContextProperty("blinkerRight", &blinkerRight);
-    engine->rootContext()->setContextProperty("blinkerLeft", &blinkerLeft);
-    engine->rootContext()->setContextProperty("high_temperature", &high_temperature);
-    engine->rootContext()->setContextProperty("engine_failure", &engine_failure);
-    engine->rootContext()->setContextProperty("power_failure", &power_failure);
-    engine->rootContext()->setContextProperty("cruise_control", &cruise_control);
-    //engine.rootContext()->setContextProperty("open_door", &open_door_cpp);
-}
+    if (!snapshot.contains("data") || !snapshot["data"].isObject()){
+        qDebug() << "System::readSnapshot - brak danych lub niepoprawny format";
+        return;
+    }
 
+    // Zostaje struktura "data", ktora ma pod soba ramki, po ktorych mozna przeiterowac
+    QJsonObject obj = snapshot["data"].toObject();
 
-void System::start() {
-    run_ = true;
-    deviceInfo devInfo;
-    while (run_) {
-        devInfo = can.readFrame();
-        if (devInfo.id != 0) { // Jesli odczytane id jest rozne od 0 to znaczy ze ramka byla poprawna
-            passToSystem(&devInfo, this);
+    for (auto it = obj.constBegin(); it != obj.constEnd(); ++it) {
+        //qDebug() << "Przetwarzanie ramki:" << it.key();
+
+        // Zwraca zawartosc danej ramki -> liste pod signals i timestamp ( nie tworzy kopi )
+        QJsonObject frameObj = it.value().toObject();
+        QString frameName = it.key();
+        // Wyciecie listy sygnalow
+        QJsonArray signalsList = frameObj.value("signals").toArray();    
+
+        for (auto sigIt = signalsList.constBegin(); sigIt != signalsList.constEnd(); ++sigIt) {
+            // Pojedyczny sygnal
+            QJsonObject currentSig = sigIt->toObject();
+            QString name = currentSig.value("name").toString();
+
+            // it.key() to nazwa obecnej ramki
+            if(systemValues_.contains(frameName) && systemValues_[it.key()].containsSignal(name)){
+                QString value = currentSig.value("value").toVariant().toString();
+                //qDebug() << it.key() << name << value;
+                updateValues(it.key(), name, value);
+            }            
         }
     }
+
+    emit valuesChanged();
 }
+
+void System::readUpdate(const QJsonObject& update){ // poprawic do nowej wersji swag ekranu
+    // Kazdy update daje tylko jedna ramke
+    QString frame_name = update.value("message_name").toString();
+    // Pod entry jest lista sygnalow i timestamp (nie wazny)
+    QJsonObject entry = update.value("entry").toObject();
+    QJsonArray signals_list = entry.value("signals").toArray();
+
+    for (auto it = signals_list.constBegin(); it != signals_list.constEnd(); ++it) {
+        if (!it->isObject())
+            continue;
+
+        QJsonObject signalObj = it->toObject();
+        QString name = signalObj.value("name").toString();
+
+        if(systemValues_.contains(frame_name) && systemValues_[frame_name].containsSignal(name)){
+            QString value = signalObj.value("value").toVariant().toString();
+            updateValues(frame_name, name, value);
+        }
+    }
+    emit valuesChanged();
+}
+
+QString System::values(const QString& frameName,const QString& signalName) const
+{
+    if (systemValues_.contains(frameName)){
+        return systemValues_.value(frameName).getSigVal(signalName);
+    }
+    else{
+        qDebug() << "System nie zawiera ramki o nazwie:" << frameName;
+        return QString();
+    }
+}
+

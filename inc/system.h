@@ -1,47 +1,30 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include "can.h"  
-#include <string>                    
-#include <QQmlApplicationEngine>                        
-#include "clock.h"                  
-#include "valueinfo.h"                
-#include "blinker.h"     
+#include <QHash>
+#include <QString>
+#include <QObject>
+#include <QVariant>
+#include <QVariantMap>
+#include "functions.h"
+class System : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(bool dataTick READ dataTick NOTIFY valuesChanged)
+public:
+    explicit System(QObject *parent = nullptr);
+    Q_INVOKABLE QString values(const QString& frameName,const QString& signalName) const;
+    void updateValues(const QString& frameName, const QString& signalName, const QString& value);
+    bool dataTick() const { return true; } // Zawsze zwraca true, aby sygnalizować zmianę danych
+    // dataTick jest uzywany jedynie do wykrywania ze nastapila zmiana danych po valuesChanged, co bedzie powodowac ponowne wywolanie values() w qml
+signals:
+    void valuesChanged();
+public slots:
+    void readSnapshot(const QJsonObject& snapshot);
+    void readUpdate(const QJsonObject& update);
 
-class System {
-    public:
-
-    System(QQmlApplicationEngine* engine, const std::string &bus_name = "can0");
-    void start();
-    void stop() {run_ = false;}
-
-    CAN can;
-    Clock clock;
-    ValueInfo battery;
-    ValueInfo temperature;
-    ValueInfo mileage;
-    ValueInfo speedometer;
-    ValueInfo drivemode;
-    ValueInfo engine_power;
-    ValueInfo low_beam;
-    ValueInfo high_beam;
-    ValueInfo parking_lights;
-    ValueInfo hazard_lights;
-    Blinker blinkerRight;
-    Blinker blinkerLeft;
-    ValueInfo high_temperature;
-    //ValueInfo open_door; Narazie nie uzywamy
-    ValueInfo engine_failure;
-    ValueInfo power_failure;
-    ValueInfo cruise_control;
-
-    private:
-    bool run_;
+private:
+    QHash<QString, CANframe> systemValues_;
 };
-
-double decodeRawData(uint64_t rawData, const deviceInfo& sig);
-void passToSystem(deviceInfo *devInfo, System* system);
-
-
 
 #endif // SYSTEM_H
