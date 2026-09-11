@@ -75,8 +75,8 @@ Window {
             speedValue : // root.suwak_v
             {
                 system.dataTick;
-                let rightRPM = Number(system.values("EngineRight_STATIC_TPDO1","RightMotorRPM"));
-                let leftRPM = Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorRPM"));
+                let rightRPM = Math.abs(Number(system.values("EngineRight_STATIC_TPDO1","RightMotorRPM")));
+                let leftRPM = Math.abs(Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorRPM")));
                 // Srednia z obrotow -> dzielenie przez 6 (przekladnia) -> droga przebyta przez kolo obrot ->  zamiana jednostek
                 return Math.abs(Math.round((rightRPM+leftRPM)/12 * (2*Math.PI*0.35) * (60/1000)))
             }
@@ -105,7 +105,11 @@ Window {
             powerValue:
             {
                 system.dataTick;
-                return Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryCurrent")) * Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryVoltage")) / 1000.0
+                return (
+                    (Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorVoltage")) * Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorCurrent"))
+                     + Number(system.values("EngineRight_STATIC_TPDO1","RightMotorVoltage")) * Number(system.values("EngineRight_STATIC_TPDO1","RightMotorCurrent"))
+                    ) / 1000.0
+                )
             }
 
             batteryCharge:
