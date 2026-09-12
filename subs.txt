@@ -5,7 +5,7 @@
 
 # Obserwowanie predkosci obrotowej obu silnikow
 EngineRight_STATIC_TPDO1|RightMotorRPM,RightMotorCurrent,RightMotorVoltage
-EngineLeft_STATIC_TPDO1|LeftMotorRPM,LeftMotorCurrent,LeftMotorCurrent
+EngineLeft_STATIC_TPDO1|LeftMotorRPM,LeftMotorCurrent,LeftMotorVoltage
 
 # Aktualny bieg
 Dashboard_Control|PRND

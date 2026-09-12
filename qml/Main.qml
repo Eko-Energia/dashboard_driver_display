@@ -61,6 +61,27 @@ Window {
         y: 430
     }*/
 
+    Rectangle {
+        id: mileageBadge
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: 465
+        width: mileageText.implicitWidth + 32
+        height: mileageText.implicitHeight + 12
+        radius: height / 2
+        color: "#8C10142E"
+        border.color: "#4A5580"
+        border.width: 1
+
+        Text {
+            id: mileageText
+            anchors.centerIn: parent
+            text: system.totalKm.toFixed(1) + " km"
+            color: "#D9D9D9"
+            font.pixelSize: 22
+            font.family: oxaniumSemiBold.name
+        }
+    }
+
     Lights_Row{
         anchors.horizontalCenter: parent.horizontalCenter
         y: 510
@@ -72,15 +93,16 @@ Window {
         anchors.centerIn: parent
 
         Speedometer{        
-            speedValue : // root.suwak_v
+            speedValue : system.speedKmh
+            /*
             {
                 system.dataTick;
                 let rightRPM = Math.abs(Number(system.values("EngineRight_STATIC_TPDO1","RightMotorRPM")));
                 let leftRPM = Math.abs(Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorRPM")));
                 // Srednia z obrotow -> dzielenie przez 6 (przekladnia) -> droga przebyta przez kolo obrot ->  zamiana jednostek
                 return Math.abs(Math.round((rightRPM+leftRPM)/12 * (2*Math.PI*0.35) * (60/1000)))
-            }
-            speedValueText : speedValue
+            }*/
+            speedValueText : Math.round(speedValue)
 
             driveMode:{
                 system.dataTick;

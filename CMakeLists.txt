@@ -46,9 +46,11 @@ qt_add_executable(appeko_dashboard
     inc/clock.h
     src/clock.cpp
     src/main.cpp
-    inc/websocketclient.h 
+    inc/websocketclient.h
     src/websocketclient.cpp
-    inc/functions.h 
+    inc/telemetrywebsocketclient.h
+    src/telemetrywebsocketclient.cpp
+    inc/functions.h
     src/functions.cpp
     inc/system.h
     src/system.cpp

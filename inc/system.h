@@ -17,14 +17,23 @@ public:
     void updateValues(const QString& frameName, const QString& signalName, const QString& value);
     bool dataTick() const { return true; } // Zawsze zwraca true, aby sygnalizować zmianę danych
     // dataTick jest uzywany jedynie do wykrywania ze nastapila zmiana danych po valuesChanged, co bedzie powodowac ponowne wywolanie values() w qml
+
+    Q_PROPERTY(double totalKm READ totalKm NOTIFY valuesChanged)
+    Q_PROPERTY(double speedKmh READ speedKmh NOTIFY valuesChanged)
+    double totalKm() const { return totalKm_; }
+    double speedKmh() const { return speedKmh_; }
 signals:
     void valuesChanged();
 public slots:
     void readSnapshot(const QJsonObject& snapshot);
     void readUpdate(const QJsonObject& update);
+    void readMileageUpdate(double totalKm);
+    void readSpeedUpdate(double speedKmh);
 
 private:
     QHash<QString, CANframe> systemValues_;
+    double totalKm_ = 0.0;
+    double speedKmh_ = 0.0;
 };
 
 #endif // SYSTEM_H

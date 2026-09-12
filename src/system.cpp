@@ -91,6 +91,19 @@ void System::readUpdate(const QJsonObject& update){ // poprawic do nowej wersji 
     emit valuesChanged();
 }
 
+void System::readMileageUpdate(double totalKm)
+{
+    totalKm_ = totalKm;
+    emit valuesChanged();
+}
+
+void System::readSpeedUpdate(double speedKmh)
+{
+    qDebug() <<"Otrzymano update predkosci" << speedKmh;
+    speedKmh_ = speedKmh;
+    emit valuesChanged();
+}
+
 QString System::values(const QString& frameName,const QString& signalName) const
 {
     if (systemValues_.contains(frameName)){

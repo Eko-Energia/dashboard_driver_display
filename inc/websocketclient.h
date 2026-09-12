@@ -18,9 +18,11 @@ signals:
     void snapshotReceived(QJsonObject& snapshot);
     void updateReceived(QJsonObject& update);
 
+protected slots:
+    virtual void onConnected();
+    virtual void onTextMessageReceived(const QString& message);
+
 private slots:
-    void onConnected();
-    void onTextMessageReceived(const QString& message);
     void onDisconnected();
     void onBinaryMessageReceived(const QByteArray& data);
 
