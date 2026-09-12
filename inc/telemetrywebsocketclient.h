@@ -17,6 +17,7 @@ signals:
     void mileageUpdateReceived(double totalKm);
     void speedUpdateReceived(double speedKmh);
     void energyUpdateReceived(double avgPowerW, double intervalS);
+    void errorUpdateReceived(double code, const QString& name);
 
 protected slots:
     void onConnected() override;

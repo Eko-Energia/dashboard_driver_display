@@ -27,6 +27,9 @@ void TelemetryWebSocketClient::onTextMessageReceived(const QString& message)
     else if (type == "energy_update") {
         emit energyUpdateReceived(received_JSON["avg_power_w"].toDouble(), received_JSON["interval_s"].toDouble());
     }
+    else if (type == "error_update") {
+        emit errorUpdateReceived(received_JSON["code"].toDouble(), received_JSON["name"].toString());
+    }
     else {
         qDebug() << "Telemetry: otrzymano niespodziewany typ wiadomosci" << type;
     }

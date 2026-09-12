@@ -26,12 +26,14 @@ public:
     double avgPowerW() const { return avgPowerW_; }
 signals:
     void valuesChanged();
+    void errorReceived(double code, const QString& name);
 public slots:
     void readSnapshot(const QJsonObject& snapshot);
     void readUpdate(const QJsonObject& update);
     void readMileageUpdate(double totalKm);
     void readSpeedUpdate(double speedKmh);
     void readEnergyUpdate(double avgPowerW, double intervalS);
+    void readErrorUpdate(double code, const QString& name);
 
 private:
     QHash<QString, CANframe> systemValues_;

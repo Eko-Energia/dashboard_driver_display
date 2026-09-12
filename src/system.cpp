@@ -111,6 +111,11 @@ void System::readEnergyUpdate(double avgPowerW, double intervalS)
     emit valuesChanged();
 }
 
+void System::readErrorUpdate(double code, const QString& name)
+{
+    emit errorReceived(code, name);
+}
+
 QString System::values(const QString& frameName,const QString& signalName) const
 {
     if (systemValues_.contains(frameName)){

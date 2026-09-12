@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
     QObject::connect(&telemetryClient, &TelemetryWebSocketClient::mileageUpdateReceived, &system, &System::readMileageUpdate);
     QObject::connect(&telemetryClient, &TelemetryWebSocketClient::speedUpdateReceived, &system, &System::readSpeedUpdate);
     QObject::connect(&telemetryClient, &TelemetryWebSocketClient::energyUpdateReceived, &system, &System::readEnergyUpdate);
+    QObject::connect(&telemetryClient, &TelemetryWebSocketClient::errorUpdateReceived, &system, &System::readErrorUpdate);
 
     client.connectToServer();
     telemetryClient.connectToServer();

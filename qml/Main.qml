@@ -47,14 +47,13 @@ Window {
         y: 63
     }
 
-    /* jeszcze nie zaimplementowane
     Error_Pop_Up{
         x: 656
         y: 140
         width: 287
         height: 158
         opacity: 1.0
-    }*/
+    }
 
     Utils{
         x: 656
