@@ -104,6 +104,13 @@ void System::readSpeedUpdate(double speedKmh)
     emit valuesChanged();
 }
 
+void System::readEnergyUpdate(double avgPowerW, double intervalS)
+{
+    Q_UNUSED(intervalS);
+    avgPowerW_ = avgPowerW;
+    emit valuesChanged();
+}
+
 QString System::values(const QString& frameName,const QString& signalName) const
 {
     if (systemValues_.contains(frameName)){

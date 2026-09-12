@@ -23,6 +23,7 @@ int main(int argc, char *argv[]) {
     QObject::connect(&client, &WebSocketClient::updateReceived, &system, &System::readUpdate);
     QObject::connect(&telemetryClient, &TelemetryWebSocketClient::mileageUpdateReceived, &system, &System::readMileageUpdate);
     QObject::connect(&telemetryClient, &TelemetryWebSocketClient::speedUpdateReceived, &system, &System::readSpeedUpdate);
+    QObject::connect(&telemetryClient, &TelemetryWebSocketClient::energyUpdateReceived, &system, &System::readEnergyUpdate);
 
     client.connectToServer();
     telemetryClient.connectToServer();

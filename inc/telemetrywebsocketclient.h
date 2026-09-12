@@ -16,6 +16,7 @@ public:
 signals:
     void mileageUpdateReceived(double totalKm);
     void speedUpdateReceived(double speedKmh);
+    void energyUpdateReceived(double avgPowerW, double intervalS);
 
 protected slots:
     void onConnected() override;

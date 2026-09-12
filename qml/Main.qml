@@ -47,12 +47,20 @@ Window {
         y: 63
     }
 
+    /* jeszcze nie zaimplementowane
     Error_Pop_Up{
         x: 656
         y: 140
         width: 287
         height: 158
         opacity: 1.0
+    }*/
+
+    Utils{
+        x: 656
+        y: 140 + 158 + 4
+        avgConsumptionKwh: system.avgPowerW / 1000.0
+        mileageKm: system.totalKm
     }
 
     /* Nie zaimplementowane
@@ -60,27 +68,6 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
         y: 430
     }*/
-
-    Rectangle {
-        id: mileageBadge
-        anchors.horizontalCenter: parent.horizontalCenter
-        y: 465
-        width: mileageText.implicitWidth + 32
-        height: mileageText.implicitHeight + 12
-        radius: height / 2
-        color: "#8C10142E"
-        border.color: "#4A5580"
-        border.width: 1
-
-        Text {
-            id: mileageText
-            anchors.centerIn: parent
-            text: system.totalKm.toFixed(1) + " km"
-            color: "#D9D9D9"
-            font.pixelSize: 22
-            font.family: oxaniumSemiBold.name
-        }
-    }
 
     Lights_Row{
         anchors.horizontalCenter: parent.horizontalCenter

@@ -20,8 +20,10 @@ public:
 
     Q_PROPERTY(double totalKm READ totalKm NOTIFY valuesChanged)
     Q_PROPERTY(double speedKmh READ speedKmh NOTIFY valuesChanged)
+    Q_PROPERTY(double avgPowerW READ avgPowerW NOTIFY valuesChanged)
     double totalKm() const { return totalKm_; }
     double speedKmh() const { return speedKmh_; }
+    double avgPowerW() const { return avgPowerW_; }
 signals:
     void valuesChanged();
 public slots:
@@ -29,11 +31,13 @@ public slots:
     void readUpdate(const QJsonObject& update);
     void readMileageUpdate(double totalKm);
     void readSpeedUpdate(double speedKmh);
+    void readEnergyUpdate(double avgPowerW, double intervalS);
 
 private:
     QHash<QString, CANframe> systemValues_;
     double totalKm_ = 0.0;
     double speedKmh_ = 0.0;
+    double avgPowerW_ = 0.0;
 };
 
 #endif // SYSTEM_H
