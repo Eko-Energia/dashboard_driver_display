@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    WebSocketClient client(QUrl("ws://0.0.0.0:8080"));
+    WebSocketClient client(QUrl("ws://localhost:8080"));
     TelemetryWebSocketClient telemetryClient(QUrl("ws://localhost:8081"));
     System system;
     Clock clock;

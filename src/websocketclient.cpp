@@ -34,7 +34,7 @@ void WebSocketClient::sendMessage(const QString& message)
 
 void WebSocketClient::onConnected()
 {
-    qDebug() << "WebSocket connected";
+    qDebug() << "WebSocket connected:" << this->addres;
     QList<CANframe> subs = loadSubscriptions();
     QStringList subsNames;
     for(const CANframe& frame : subs){
@@ -60,10 +60,12 @@ void WebSocketClient::onTextMessageReceived(const QString& message)
 
 void WebSocketClient::onDisconnected()
 {
-    qDebug() << "WebSocket disconnected";
+    // Adres musi byc w kazdej linijce - inaczej nie da sie odroznic, ktory
+    // z klientow (CAN czy telemetria) sie rozlacza i probuje wrocic.
+    qDebug() << "WebSocket disconnected:" << this->addres;
 
     QTimer::singleShot(1000, this, [this]() {
-        qDebug() << "Reconnecting WebSocket";
+        qDebug() << "Reconnecting WebSocket:" << this->addres;
         this->connectToServer(); 
     });
 }
