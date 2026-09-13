@@ -36,5 +36,6 @@
         <file>fonts/Oxanium-ExtraBold.ttf</file>
         <file>img/gauges/powermeter/battery/battery_mask.png</file>
         <file>qml/BatteryBar.qml</file>
+        <file>qml/Utils.qml</file>
     </qresource>
 </RCC>

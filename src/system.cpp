@@ -91,6 +91,33 @@ void System::readUpdate(const QJsonObject& update){ // poprawic do nowej wersji 
     emit valuesChanged();
 }
 
+void System::readMileageUpdate(double totalKm)
+{
+    totalKm_ = totalKm;
+    emit valuesChanged();
+}
+
+void System::readSpeedUpdate(double speedKmh)
+{
+    qDebug() <<"Otrzymano update predkosci" << speedKmh;
+    speedKmh_ = speedKmh;
+    emit valuesChanged();
+}
+
+void System::readEnergyUpdate(double avgPowerW, double intervalS)
+{
+    avgPowerW_ = avgPowerW;
+    if (intervalS > 0.0) {
+        energyIntervalS_ = intervalS;
+    }
+    emit valuesChanged();
+}
+
+void System::readErrorUpdate(double code, const QString& name)
+{
+    emit errorReceived(code, name);
+}
+
 QString System::values(const QString& frameName,const QString& signalName) const
 {
     if (systemValues_.contains(frameName)){
