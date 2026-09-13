@@ -1,17 +1,27 @@
 import QtQuick
-
-// Panel informacyjny w stylu Error_Pop_Up (zaokraglone rogi, poswiata na
-// gornej/dolnej krawedzi), ale w ciemniejszej, neutralnej tonacji pasujacej
-// do reszty ekranu zamiast ostrzegawczego pomaranczu. Wyswietla srednie
-// zuzycie energii oraz przebieg.
 Rectangle {
     id: root
     width: 287
     height: 158
     radius: 18
 
-    property real avgConsumptionKwh: 0
+    property real avgPowerW: 0
+    property real energyIntervalS: 3600
     property real mileageKm: 0
+
+    readonly property string intervalLabel: {
+        var s = root.energyIntervalS > 0 ? root.energyIntervalS : 3600
+        return Math.round(s / 60) + " min"
+    }
+
+    readonly property string consumptionText: {
+        var v = root.avgPowerW
+        if (Math.abs(v) >= 1000)
+            return (v / 1000).toFixed(2) + " kWh / " + root.intervalLabel
+        if (Math.abs(v) >= 100)
+            return v.toFixed(0) + " Wh / " + root.intervalLabel
+        return v.toFixed(1) + " Wh / " + root.intervalLabel
+    }
 
     color: "#0A0E27"
     border.color: "#2A2F55"
@@ -65,7 +75,7 @@ Rectangle {
                 font.family: oxaniumSemiBold.name
             }
             Text {
-                text: root.avgConsumptionKwh.toFixed(2) + " kWh/h"
+                text: root.consumptionText
                 color: "#D9D9D9"
                 font.pixelSize: 20
                 font.family: oxaniumSemiBold.name

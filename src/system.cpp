@@ -106,8 +106,10 @@ void System::readSpeedUpdate(double speedKmh)
 
 void System::readEnergyUpdate(double avgPowerW, double intervalS)
 {
-    Q_UNUSED(intervalS);
     avgPowerW_ = avgPowerW;
+    if (intervalS > 0.0) {
+        energyIntervalS_ = intervalS;
+    }
     emit valuesChanged();
 }
 

@@ -19,8 +19,10 @@ int main(int argc, char *argv[]) {
     TelemetryWebSocketClient telemetryClient(QUrl("ws://localhost:8081"));
     System system;
     Clock clock;
+//  Obsluga polaczenia bezposrednio z can-receiverem
     QObject::connect(&client, &WebSocketClient::snapshotReceived, &system, &System::readSnapshot);
     QObject::connect(&client, &WebSocketClient::updateReceived, &system, &System::readUpdate);
+// Polaczenie z rpi_utils
     QObject::connect(&telemetryClient, &TelemetryWebSocketClient::mileageUpdateReceived, &system, &System::readMileageUpdate);
     QObject::connect(&telemetryClient, &TelemetryWebSocketClient::speedUpdateReceived, &system, &System::readSpeedUpdate);
     QObject::connect(&telemetryClient, &TelemetryWebSocketClient::energyUpdateReceived, &system, &System::readEnergyUpdate);

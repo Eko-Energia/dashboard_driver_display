@@ -58,7 +58,8 @@ Window {
     Utils{
         x: 656
         y: 140 + 158 + 4
-        avgConsumptionKwh: system.avgPowerW / 1000.0
+        avgPowerW: system.avgPowerW
+        energyIntervalS: system.energyIntervalS
         mileageKm: system.totalKm
     }
 

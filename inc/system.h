@@ -21,9 +21,12 @@ public:
     Q_PROPERTY(double totalKm READ totalKm NOTIFY valuesChanged)
     Q_PROPERTY(double speedKmh READ speedKmh NOTIFY valuesChanged)
     Q_PROPERTY(double avgPowerW READ avgPowerW NOTIFY valuesChanged)
+    Q_PROPERTY(double energyIntervalS READ energyIntervalS NOTIFY valuesChanged)
     double totalKm() const { return totalKm_; }
     double speedKmh() const { return speedKmh_; }
     double avgPowerW() const { return avgPowerW_; }
+    // Okno czasowe (w sekundach), z ktorego liczona jest srednia - po nim QML dobiera podpis (15min/30min/h)
+    double energyIntervalS() const { return energyIntervalS_; }
 signals:
     void valuesChanged();
     void errorReceived(double code, const QString& name);
@@ -40,6 +43,7 @@ private:
     double totalKm_ = 0.0;
     double speedKmh_ = 0.0;
     double avgPowerW_ = 0.0;
+    double energyIntervalS_ = 3600.0;
 };
 
 #endif // SYSTEM_H
