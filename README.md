@@ -11,7 +11,7 @@
 [![CMake](https://img.shields.io/badge/CMake-3.16%2B-064F8C?logo=cmake&logoColor=white)](https://cmake.org/)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Raspberry%20Pi-blue?logo=linux&logoColor=white)](#)
 
-<img width="1600" height="600" alt="dashboard-mock-up" src="https://github.com/user-attachments/assets/44e8a73c-0876-4c98-b29a-63b999ad8bc5" />
+<img width="1600" height="600" alt="dashboard-mock-up" src="./img/Perla_screen.png" />
 
 </div>
 
