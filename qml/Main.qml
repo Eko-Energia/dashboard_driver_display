@@ -55,6 +55,14 @@ Window {
         opacity: 1.0
     }
 
+    Utils{
+        x: 656
+        y: 140 + 158 + 4
+        avgPowerW: system.avgPowerW
+        energyIntervalS: system.energyIntervalS
+        mileageKm: system.totalKm
+    }
+
     /* Nie zaimplementowane
     Warnings_Row{
         anchors.horizontalCenter: parent.horizontalCenter
@@ -72,15 +80,16 @@ Window {
         anchors.centerIn: parent
 
         Speedometer{        
-            speedValue : // root.suwak_v
+            speedValue : system.speedKmh
+            /*
             {
                 system.dataTick;
-                let rightRPM = Number(system.values("EngineRight_STATIC_TPDO1","RightMotorRPM"));
-                let leftRPM = Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorRPM"));
+                let rightRPM = Math.abs(Number(system.values("EngineRight_STATIC_TPDO1","RightMotorRPM")));
+                let leftRPM = Math.abs(Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorRPM")));
                 // Srednia z obrotow -> dzielenie przez 6 (przekladnia) -> droga przebyta przez kolo obrot ->  zamiana jednostek
                 return Math.abs(Math.round((rightRPM+leftRPM)/12 * (2*Math.PI*0.35) * (60/1000)))
-            }
-            speedValueText : speedValue
+            }*/
+            speedValueText : Math.round(speedValue)
 
             driveMode:{
                 system.dataTick;
@@ -105,7 +114,10 @@ Window {
             powerValue:
             {
                 system.dataTick;
-                return Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryCurrent")) * Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryVoltage")) / 1000.0
+                return (
+                    Number(system.values("BMSMaster_JK_Pack","BMSMaster_JK_PackVoltage")) * Number(system.values("BMSMaster_JK_Pack","BMSMaster_JK_PackCurrent"))
+                     / 1000.0
+                )
             }
 
             batteryCharge:
@@ -116,7 +128,8 @@ Window {
                   liniowej xdddddd
                 */
                 system.dataTick;
-                return (Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryVoltage"))-63) / 24 * 100
+
+                return (Number(system.values("BMSMaster_JK_Pack","BMSMaster_JK_SOC")))
             }
         }
     }

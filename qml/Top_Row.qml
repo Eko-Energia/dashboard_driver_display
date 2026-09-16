@@ -26,6 +26,7 @@ Item {
             font.family: oxaniumSemiBold.name
         }
 
+        /* Nima skad brac narazie
         Text{
             id: temperature
             anchors.verticalCenter: parent.verticalCenter
@@ -33,6 +34,6 @@ Item {
             color : "#FFFFFF"
             font.pixelSize : 24
             font.family: oxaniumSemiBold.name
-        }
+        }*/
     }
 }

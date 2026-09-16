@@ -18,7 +18,7 @@ QString Clock::date() const {
 
 void Clock::updateDateTime() {
     QString currentTime = QTime::currentTime().toString("HH:mm");
-    QString currentDate = QDate::currentDate().toString("MM-dd");
+    QString currentDate = QDate::currentDate().toString("dd-MM-yyyy");
     if(currentTime != time_){
         time_ = currentTime;
         emit timeChanged();

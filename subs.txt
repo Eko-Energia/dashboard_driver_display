@@ -10,8 +10,8 @@ EngineLeft_STATIC_TPDO1|LeftMotorRPM
 # Aktualny bieg
 Dashboard_Control|PRND
 
-# Stan naladowania baterii
-BMSMaster_MasterVoltCurrTemp|BMSMaster_MasterBatteryVoltage,BMSMaster_MasterBatteryCurrent
+# Stan naladowania baterii, uzywa BMS JK chinol (pewniejszy)
+BMSMaster_JK_Pack|BMSMaster_JK_PackVoltage,BMSMaster_JK_PackCurrent,BMSMaster_JK_SOC
 
 # Swiatla
 Dashboard_Lights|Headlights,TurnSignal_Left,TurnSignal_Right,Emergency
