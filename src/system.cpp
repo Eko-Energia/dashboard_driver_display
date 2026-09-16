@@ -146,15 +146,17 @@ void System::updatePackFromFrame()
     bool voltageOk = false;
     bool currentOk = false;
     const double packVoltage = frame.getSigVal(kPackVoltageSignal).toDouble(&voltageOk);
-    const double packCurrent = frame.getSigVal(kPackCurrentSignal).toDouble(&currentOk);
+    // BMS podaje prad z odwrotnym znakiem niz opisuje CM_ SG_ 140 w CAN_DB.dbc,
+    // wiec odwracamy go tu, u zrodla - tak samo jak rpi_utilities.
+    const double packCurrent = -frame.getSigVal(kPackCurrentSignal).toDouble(&currentOk);
     if (!voltageOk || !currentOk) {
         packStale_ = true;
         return;
     }
 
-    // Znak wg DBC (CM_ SG_ 140 BMSMaster_JK_PackCurrent): dodatni prad to rozladowanie,
-    // czyli dodatnia moc = pobor, ujemna = ladowanie/rekuperacja. Dokladnie ta sama
-    // konwencja co w rpi_utilities/src/rpi_utilities/energy.py.
+    // Po odwroceniu znaku dodatni prad to rozladowanie, czyli dodatnia moc = pobor,
+    // ujemna = ladowanie/rekuperacja. Dokladnie ta sama konwencja co w
+    // rpi_utilities/src/rpi_utilities/energy.py.
     packPowerKw_ = packVoltage * packCurrent / 1000.0;
 
     if (frame.containsSignal(kPackSocSignal)) {
