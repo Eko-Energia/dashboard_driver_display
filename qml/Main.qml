@@ -115,9 +115,8 @@ Window {
             {
                 system.dataTick;
                 return (
-                    (Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorVoltage")) * Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorCurrent"))
-                     + Number(system.values("EngineRight_STATIC_TPDO1","RightMotorVoltage")) * Number(system.values("EngineRight_STATIC_TPDO1","RightMotorCurrent"))
-                    ) / 1000.0
+                    Number(system.values("BMSMaster_JK_Pack","BMSMaster_JK_PackVoltage")) * Number(system.values("BMSMaster_JK_Pack","BMSMaster_JK_PackCurrent"))
+                     / 1000.0
                 )
             }
 
@@ -129,7 +128,8 @@ Window {
                   liniowej xdddddd
                 */
                 system.dataTick;
-                return (Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryVoltage"))-63) / 24 * 100
+
+                return (Number(system.values("BMSMaster_JK_Pack","BMSMaster_JK_SOC")))
             }
         }
     }
