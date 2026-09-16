@@ -23,6 +23,12 @@ Item {
     // Maksymalna odczytywana wartość logiczna
     property real valueMax: 0
 
+    // Czas (ms), w jakim wskazowka ma przejsc do nowej wartosci, niezaleznie od dlugosci
+    // skoku. 0 zostawia domyslne ograniczenie predkoscia (200 stopni/s) - dobre przy
+    // gestych probkach. Przy zrodle nadajacym raz na sekunde daje ono szarpniecie i
+    // sekunde bezruchu, wiec taki zegar ustawia glideMs na dlugosc swojego cyklu ramki.
+    property int glideMs: 0
+
     Image {
         id: needle
         source: "qrc:/img/gauges/arrow.png"
@@ -52,7 +58,11 @@ Item {
 
         Behavior on rotation {
             SmoothedAnimation {
-                velocity: 200
+                // velocity: -1 wylacza ograniczenie predkoscia i oddaje sterowanie polu
+                // duration - tak SmoothedAnimation przechodzi z trybu "nie szybciej niz"
+                // w tryb "dokladnie tyle czasu".
+                velocity: root.glideMs > 0 ? -1 : 200
+                duration: root.glideMs > 0 ? root.glideMs : 250
             }
         }
     }
