@@ -122,6 +122,7 @@ Window {
             powerValue: system.packPowerKw
             batteryCharge: system.packSoc
             dataStale: system.packStale
+
         }
     }
 
