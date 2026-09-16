@@ -1,16 +1,29 @@
 #include "telemetrywebsocketclient.h"
 #include <QJsonObject>
+#include <QJsonValue>
 #include <QDebug>
 #include "functions.h"
 
 TelemetryWebSocketClient::TelemetryWebSocketClient(QUrl serverURL, QObject *parent)
     : WebSocketClient(serverURL, parent)
 {
+    snapshotWindow_.setSingleShot(true);
+    snapshotWindow_.setInterval(kSnapshotWindowMs);
+    connect(&snapshotWindow_, &QTimer::timeout, this, [this]() {
+        if (snapshotErrorCount_ > 0) {
+            emit snapshotErrorsReceived(snapshotErrorCount_);
+        }
+        snapshotErrorCount_ = 0;
+    });
 }
 
 void TelemetryWebSocketClient::onConnected()
 {
     qDebug() << "Telemetry WebSocket connected";
+    // Nowe polaczenie to nowa paczka snapshotowa - liczymy ja od zera, nawet jesli
+    // poprzednie okno nie zdazylo sie domknac (szybki reconnect).
+    snapshotErrorCount_ = 0;
+    snapshotWindow_.start();
 }
 
 void TelemetryWebSocketClient::onTextMessageReceived(const QString& message)
@@ -33,25 +46,42 @@ void TelemetryWebSocketClient::onTextMessageReceived(const QString& message)
             }*/
     }
     else if (type == "energy_update") {
-        emit energyUpdateReceived(received_JSON["avg_power_w"].toDouble(), received_JSON["interval_s"].toDouble());
         /*{
               "type": "energy_update",
-              "avg_power_w": 1250.35,
-              "interval_s": 3600.0
+              "avg_power_kw": 1.25,
+              "consumption_kwh_per_km": 0.0821,   // albo null
+              "energy_kwh": 1.0523,               // nieuzywane przez ekran
+              "distance_km": 12.8134,             // nieuzywane przez ekran
+              "interval_s": 900.0,
+              "coverage": 0.987
             }*/
-        // Teoretycznie energia udostepnia interwal na ktorym liczona jest srednia wiec w przyszlosci mozna to napisac dynamiczniej
-        // Zeby juz QT interpretowalo sobie czy srednia jest na minute godzine cokolwiek
+        // consumption_kwh_per_km bywa nullem, a QJsonValue::toDouble() zwrocilby wtedy
+        // po cichu 0.0 - czyli "jedziemy za darmo" zamiast "nie wiadomo". Stad jawna
+        // flaga waznosci zamiast wartosci wartowniczej.
+        const QJsonValue consumption = received_JSON.value("consumption_kwh_per_km");
+        const bool consumptionValid = consumption.isDouble();
+
+        emit energyUpdateReceived(received_JSON["avg_power_kw"].toDouble(),
+                                  consumptionValid ? consumption.toDouble() : 0.0,
+                                  consumptionValid,
+                                  received_JSON["coverage"].toDouble(),
+                                  received_JSON["interval_s"].toDouble());
     }
     else if (type == "error_update") {
-        emit errorUpdateReceived(received_JSON["code"].toDouble(), received_JSON["name"].toString());
+        /*{
+              "type": "error_update",
+              "frame": "MPPT_NODE",
+              "code": 2000,
+              "name": "Voltage out of range"
+            }*/
+        if (snapshotWindow_.isActive()) {
+            ++snapshotErrorCount_;
+        } else {
+            emit errorUpdateReceived(received_JSON["frame"].toString(),
+                                     received_JSON["code"].toDouble(),
+                                     received_JSON["name"].toString());
+        }
     }
-    /*{
-          "type": "error_update",
-          "frame": "MOTOR_LEFT_NODE",
-          "code": 2000,
-          "name": "Voltage out of range"
-        }*/
-
     else {
         qDebug() << "Telemetry: otrzymano niespodziewany typ wiadomosci" << type;
     }

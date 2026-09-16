@@ -55,10 +55,13 @@ Window {
         opacity: 1.0
     }
 
-    Utils{
+    TelemetryCard{
         x: 656
         y: 140 + 158 + 4
-        avgPowerW: system.avgPowerW
+        avgPowerKw: system.avgPowerKw
+        consumptionKwhPerKm: system.consumptionKwhPerKm
+        consumptionValid: system.consumptionValid
+        energyCoverage: system.energyCoverage
         energyIntervalS: system.energyIntervalS
         mileageKm: system.totalKm
     }
@@ -111,26 +114,14 @@ Window {
         }
 
         Powermeter{
-            powerValue:
-            {
-                system.dataTick;
-                return (
-                    (Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorVoltage")) * Number(system.values("EngineLeft_STATIC_TPDO1","LeftMotorCurrent"))
-                     + Number(system.values("EngineRight_STATIC_TPDO1","RightMotorVoltage")) * Number(system.values("EngineRight_STATIC_TPDO1","RightMotorCurrent"))
-                    ) / 1000.0
-                )
-            }
-
-            batteryCharge:
-            {
-                /*
-                  Totalnie nie podoba mi sie ten sposob obliczania stanu baterii
-                  Rozwiazanie chwilowe, nasza bateria na 100% nie ma charakterystyki
-                  liniowej xdddddd
-                */
-                system.dataTick;
-                return (Number(system.values("BMSMaster_MasterVoltCurrTemp","BMSMaster_MasterBatteryVoltage"))-63) / 24 * 100
-            }
+            // Moc chwilowa calego pakietu (shunt JK), a nie samej trakcji: to ten sam
+            // pomiar, z ktorego rpi_utilities licza srednia na karcie telemetrii, wiec
+            // zegar i karta opisuja te sama wielkosc - raz teraz, raz w oknie 15 min.
+            // Liczone w C++ (System), bo doszlo bramkowanie bitem 6 StatusFlags i
+            // trzymanie ostatniego wiarygodnego odczytu - to stan, nie formatowanie.
+            powerValue: system.packPowerKw
+            batteryCharge: system.packSoc
+            dataStale: system.packStale
         }
     }
 

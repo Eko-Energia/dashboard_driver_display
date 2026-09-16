@@ -10,8 +10,12 @@ EngineLeft_STATIC_TPDO1|LeftMotorRPM,LeftMotorCurrent,LeftMotorVoltage
 # Aktualny bieg
 Dashboard_Control|PRND
 
-# Stan naladowania baterii, to sie pewnie zmieni btw
-BMSMaster_MasterVoltCurrTemp|BMSMaster_MasterBatteryVoltage,BMSMaster_MasterBatteryCurrent
+# Pakiet JK: moc chwilowa (V*I), stan naladowania i flagi statusu.
+# Jedyne zrodlo danych bateryjnych - ta sama ramka, z ktorej rpi_utilities licza
+# zuzycie energii, wiec zegar i karta telemetrii opisuja ten sam pomiar.
+# StatusFlags sa potrzebne, zeby odrzucac ramki z bledem komunikacji z JK (bit 6),
+# w ktorych napiecie, prad i SOC sa zamrozone, a nie zmierzone.
+BMSMaster_JK_Pack|BMSMaster_JK_PackVoltage,BMSMaster_JK_PackCurrent,BMSMaster_JK_SOC,BMSMaster_JK_StatusFlags
 
 # Swiatla
 Dashboard_Lights|Headlights,TurnSignal_Left,TurnSignal_Right,Emergency

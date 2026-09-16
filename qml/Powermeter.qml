@@ -8,6 +8,12 @@ Item {
     property real powerValue: 0
     property real batteryCharge: 0
 
+    // true, gdy ostatnia ramka pakietu miala ustawiony bit bledu komunikacji z JK.
+    // Moc i SOC trzymaja wtedy ostatni wiarygodny odczyt, wiec przygaszamy obie liczby:
+    // zamrozona wartosc pokazana pelna jasnoscia udawalaby biezacy pomiar.
+    property bool dataStale: false
+    readonly property real staleOpacity: 0.35
+
     FontLoader {
             id: oxaniumSemiBold
             source : "qrc:/fonts/Oxanium-SemiBold.ttf"
@@ -62,8 +68,11 @@ Item {
 
             Text {
                 id: battery_text
-                // Musi byc min bo przy domyslnych wartosciach beda dziwne ujemne liczby
-                text: (Math.max(0,Math.round(root.batteryCharge))).toString() + "%"
+                // SOC przychodzi wprost z BMS-a (BMSMaster_JK_SOC, 0-100 %), wiec nie ma
+                // juz czego przycinac - poprzednie min() ratowalo przed ujemnymi wynikami
+                // przyblizenia liniowego z napiecia, ktorego juz nie liczymy.
+                text: Math.round(root.batteryCharge) + "%"
+                opacity: root.dataStale ? root.staleOpacity : 1.0
                 color: "#DD9117"
                 font.pixelSize: 24
                 font.family: oxaniumXBold.name
@@ -87,7 +96,9 @@ Item {
             Text {
                 id: power
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: (Math.floor(root.powerValue)).toString()
+                // Jedno miejsce po przecinku: floor() zamienialby -4.2 kW na "-5".
+                text: root.powerValue.toFixed(1)
+                opacity: root.dataStale ? root.staleOpacity : 1.0
                 color: "#D9D9D9"
                 font.pixelSize: 72
                 font.family: oxaniumSemiBold.name
@@ -97,6 +108,7 @@ Item {
                 id: powerUnit
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "kW"
+                opacity: root.dataStale ? root.staleOpacity : 1.0
                 color: "#D9D9D9"
                 font.pixelSize: 20
                 font.family: oxaniumSemiBold.name
@@ -106,6 +118,10 @@ Item {
 
     Needle { // Strzaleczka
         rotationValue: root.powerValue
+        // BMSMaster_JK_Pack ma GenMsgCycleTime 1000 ms (CAN_DB.dbc), wiec wskazowka
+        // przeplywa miedzy probkami zamiast skakac raz na sekunde i stac. Nieco krocej
+        // niz cykl, zeby zdazyla dojsc do wartosci przed nastepna ramka.
+        glideMs: 900
         startAngle: -60 // katy
         rotationRangeLow: -140 // w katach
         rotationRangeHigh: 100
